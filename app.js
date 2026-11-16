@@ -4,6 +4,9 @@ const client = (window.supabase && cfg.url && cfg.anonKey)
   ? window.supabase.createClient(cfg.url, cfg.anonKey)
   : null;
 
+// Identifiant du compte administrateur
+const ADMIN_ID = "4a71660b-f732-4bb2-9653-9fc7a059c348";
+
 async function emailAuth(mode) {
   const msg = document.getElementById("authmsg");
   const email = document.getElementById("email").value.trim();
@@ -26,11 +29,14 @@ async function emailAuth(mode) {
       ? await client.auth.signUp({ email, password })
       : await client.auth.signInWithPassword({ email, password });
 
-    msg.textContent = result.error
-      ? result.error.message
-      : mode === "signup"
-        ? "Compte créé. Vérifiez votre e-mail."
-        : "Connexion réussie.";
+    if (result.error) {
+      msg.textContent = result.error.message;
+    } else if (mode === "signup") {
+      msg.textContent = "Compte créé. Vérifiez votre e-mail.";
+    } else {
+      msg.textContent = "Connexion réussie.";
+      await actualiserEspace();
+    }
   } catch (error) {
     msg.textContent = "Erreur : " + error.message;
   }
@@ -53,21 +59,15 @@ async function socialAuth(provider) {
     if (error) msg.textContent = error.message;
   } catch (error) {
     msg.textContent = "Erreur : " + error.message;
-  
   }
 }
 
-
+// Affichage des randonnées publiées
 async function loadSorties() {
   const zone = document.querySelector("#sorties .notice");
-  if (!zone) return;
+  if (!zone || !client) return;
 
   zone.textContent = "Chargement des randonnées...";
-
-  if (!client) {
-    zone.textContent = "Connexion à la base de données impossible.";
-    return;
-  }
 
   const { data, error } = await client
     .from("Sorties")
@@ -107,21 +107,28 @@ async function loadSorties() {
   });
 }
 
+// Affichage des propositions dans l'espace administrateur
+async function loadPropositions() {
+  const espace = document.getElementById("administration");
+  const zone = document.getElementById("sorties-en-attente");
 
-async function loadSorties() {
-  const zone = document.querySelector("#sorties .notice");
-  if (!zone) return;
+  if (!espace || !zone || !client) return;
 
-  zone.textContent = "Chargement des randonnées...";
+  const { data: userData } = await client.auth.getUser();
+  const user = userData.user;
 
-  if (!client) {
-    zone.textContent = "Connexion à la base de données impossible.";
+  if (!user || user.id !== ADMIN_ID) {
+    espace.style.display = "none";
     return;
   }
+
+  espace.style.display = "block";
+  zone.textContent = "Chargement des propositions...";
 
   const { data, error } = await client
     .from("Sorties")
     .select("*")
+    .eq("Statut", "en_attente")
     .order("Date_sortie", { ascending: true });
 
   if (error) {
@@ -132,7 +139,7 @@ async function loadSorties() {
   zone.replaceChildren();
 
   if (!data || data.length === 0) {
-    zone.textContent = "Aucune randonnée publiée pour le moment.";
+    zone.textContent = "Aucune proposition en attente.";
     return;
   }
 
@@ -152,11 +159,62 @@ async function loadSorties() {
     const description = document.createElement("p");
     description.textContent = sortie.Description || "";
 
-    fiche.append(titre, details, description);
+    const valider = document.createElement("button");
+    valider.textContent = "Valider";
+    valider.className = "btn orange";
+    valider.onclick = () => changerStatut(sortie.Id, "publie");
+
+    const refuser = document.createElement("button");
+    refuser.textContent = "Refuser";
+    refuser.className = "btn";
+    refuser.onclick = () => changerStatut(sortie.Id, "refusee");
+
+    fiche.append(titre, details, description, valider, refuser);
     zone.appendChild(fiche);
   });
 }
 
-loadSorties();
+// Validation ou refus d'une randonnée
+async function changerStatut(id, statut) {
+  if (!client) return;
 
+  const { data: userData } = await client.auth.getUser();
+
+  if (!userData.user || userData.user.id !== ADMIN_ID) {
+    alert("Accès réservé à l'administrateur.");
+    return;
+  }
+
+  const { error } = await client
+    .from("Sorties")
+    .update({ Statut: statut })
+    .eq("Id", id);
+
+  if (error) {
+    alert("Erreur : " + error.message);
+    return;
+  }
+
+  alert(statut === "publie"
+    ? "Randonnée validée !"
+    : "Randonnée refusée.");
+
+  await loadPropositions();
+  await loadSorties();
+}
+
+// Actualisation de l'espace après connexion
+async function actualiserEspace() {
+  await loadSorties();
+  await loadPropositions();
+}
+
+// Au chargement du site
+if (client) {
+  client.auth.onAuthStateChange(() => {
+    setTimeout(actualiserEspace, 0);
+  });
+
+  actualiserEspace();
+}
 
