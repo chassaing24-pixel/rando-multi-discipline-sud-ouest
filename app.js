@@ -99,12 +99,26 @@ async function loadSorties() {
       (sortie.Date_sortie || "") + " · " +
       (sortie.Lieu || "");
 
-    const description = document.createElement("p");
-    description.textContent = sortie.Description || "";
 
-    fiche.append(titre, details, description);
-    zone.appendChild(fiche);
-  });
+const details = document.createElement("p");
+details.textContent =
+  (sortie.Discipline || "") + " · " +
+  (sortie.Date_sortie || "") + " · " +
+  (sortie.Lieu || "");
+
+const description = document.createElement("p");
+description.textContent = sortie.Description || "";
+
+const infos = document.createElement("p");
+infos.textContent = [
+  sortie.Heure ? "Départ : " + sortie.Heure : "",
+  sortie.Département ? "Département : " + sortie.Département : "",
+  sortie.Prix ? "Prix : " + sortie.Prix : "",
+  sortie.Contact ? "Contact : " + sortie.Contact : ""
+].filter(Boolean).join(" · ");
+
+fiche.append(titre, details, description, infos);
+
 }
 
 // Affichage des propositions dans l'espace administrateur
