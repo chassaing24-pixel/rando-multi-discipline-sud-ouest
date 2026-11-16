@@ -16,6 +16,13 @@
 </section>
 <section id="communaute" class="community"><small>ENSEMBLE, C'EST MIEUX</small><h2>Une communauté qui bouge.</h2><p>Créez votre profil, retrouvez les participants et organisez vos prochaines aventures.</p></section>
 <section id="connexion"><small>REJOIGNEZ LE MOUVEMENT</small><h2>Créer un compte / Se connecter</h2><div class="auth"><input id="email" type="email" placeholder="Votre adresse e-mail"><input id="password" type="password" placeholder="Mot de passe (8 caractères minimum)"><button class="btn orange" onclick="emailAuth('signup')">Créer mon compte</button><button class="btn" onclick="emailAuth('login')">Me connecter</button><div class="social"><button onclick="socialAuth('google')">Continuer avec Google</button><button onclick="socialAuth('facebook')">Continuer avec Facebook</button></div><p id="authmsg" aria-live="polite"></p></div></section>
-</main><footer>© Rando Multi Discipline – Sud-Ouest · Gratuit pour les membres</footer>
+<section id="administration" style="display:none;">
+  <small>ESPACE ADMINISTRATEUR</small>
+  <h2>Gestion des randonnées</h2>
+  <p>Les randonnées proposées par les membres apparaîtront ici.</p>
+  <div id="sorties-en-attente">
+    Chargement des propositions...
+  </div>
+</section> </main><footer>© Rando Multi Discipline – Sud-Ouest · Gratuit pour les membres</footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase/config.js"></script><script src="app.js"></script>
 </body></html>
