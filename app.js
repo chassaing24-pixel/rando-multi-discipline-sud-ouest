@@ -162,12 +162,12 @@ async function loadPropositions() {
     const valider = document.createElement("button");
     valider.textContent = "Valider";
     valider.className = "btn orange";
-    valider.onclick = () => changerStatut(sortie.Id, "publie");
+    valider.onclick = () => changerStatut(sortie.id, "publie");
 
     const refuser = document.createElement("button");
     refuser.textContent = "Refuser";
     refuser.className = "btn";
-    refuser.onclick = () => changerStatut(sortie.Id, "refusee");
+    refuser.onclick = () => changerStatut(sortie.id, "refusee");
 
     fiche.append(titre, details, description, valider, refuser);
     zone.appendChild(fiche);
@@ -188,7 +188,7 @@ async function changerStatut(id, statut) {
   const { error } = await client
     .from("Sorties")
     .update({ Statut: statut })
-    .eq("Id", id);
+    .eq("id", id);
 
   if (error) {
     alert("Erreur : " + error.message);
