@@ -7,6 +7,7 @@ const client = (window.supabase && cfg.url && cfg.anonKey)
 // Identifiant du compte administrateur
 const ADMIN_ID = "4a71660b-f732-4bb2-9653-9fc7a059c348";
 
+// Connexion et inscription
 async function emailAuth(mode) {
   const msg = document.getElementById("authmsg");
   const email = document.getElementById("email").value.trim();
@@ -62,8 +63,17 @@ async function socialAuth(provider) {
   }
 }
 
-// Affichage des randonnées publiées
+// Affichage des détails d'une randonnée
+function ajouterDetail(contenu, label, valeur) {
+  const ligne = document.createElement("p");
+  const titre = document.createElement("strong");
 
+  titre.textContent = label + " : ";
+  ligne.append(titre, document.createTextNode(valeur || "Non précisé"));
+  contenu.appendChild(ligne);
+}
+
+// Affichage des randonnées publiées
 async function loadSorties() {
   const zone = document.querySelector("#sorties .notice");
   if (!zone || !client) return;
@@ -111,36 +121,64 @@ async function loadSorties() {
       sortie.Contact ? "Contact : " + sortie.Contact : ""
     ].filter(Boolean).join(" · ");
 
-    
-boutonDetails.onclick = () => {
-  const modal = document.getElementById("fenetre-details");
-  const contenu = document.getElementById("contenu-details");
+    const boutonDetails = document.createElement("button");
+    boutonDetails.textContent = "Voir les détails";
+    boutonDetails.className = "btn orange";
 
-  contenu.innerHTML = `
-    <h2>${sortie.Titre || "Randonnée"}</h2>
-    <p><strong>Discipline :</strong> ${sortie.Discipline || ""}</p>
-    <p><strong>Date :</strong> ${sortie.Date_sortie || ""}</p>
-    <p><strong>Lieu :</strong> ${sortie.Lieu || ""}</p>
-    <p><strong>Description :</strong><br>${sortie.Description || ""}</p>
-    <p><strong>Départ :</strong> ${sortie.Heure || "Non précisé"}</p>
-    <p><strong>Département :</strong> ${sortie.Département || ""}</p>
-    <p><strong>Prix :</strong> ${sortie.Prix || "Non précisé"}</p>
-    <p><strong>Contact :</strong> ${sortie.Contact || "Non précisé"}</p>
-  `;
+    boutonDetails.onclick = () => {
+      const modal = document.getElementById("fenetre-details");
+      const contenu = document.getElementById("contenu-details");
 
-  modal.style.display = "block";
-};
+      if (!modal || !contenu) return;
 
-    document.getElementById("fermer-details").onclick = () => {
-  document.getElementById("fenetre-details").style.display = "none";
-};
+      contenu.replaceChildren();
 
-fiche.append(titre, details, boutonDetails);
-zone.appendChild(fiche);
+      const titreModal = document.createElement("h2");
+      titreModal.textContent = sortie.Titre || "Randonnée";
+      contenu.appendChild(titreModal);
 
+      ajouterDetail(contenu, "Discipline", sortie.Discipline);
+      ajouterDetail(contenu, "Date", sortie.Date_sortie);
+      ajouterDetail(contenu, "Lieu", sortie.Lieu);
+      ajouterDetail(contenu, "Description", sortie.Description);
+      ajouterDetail(contenu, "Départ", sortie.Heure);
+      ajouterDetail(contenu, "Département", sortie.Département);
+      ajouterDetail(contenu, "Prix", sortie.Prix);
+      ajouterDetail(contenu, "Contact", sortie.Contact);
+
+      const photos = Array.isArray(sortie.Photos)
+        ? sortie.Photos
+        : [];
+
+      if (photos.length > 0) {
+        const titrePhotos = document.createElement("h3");
+        titrePhotos.textContent = "Photos de la randonnée";
+        contenu.appendChild(titrePhotos);
+
+        photos.forEach(url => {
+          const image = document.createElement("img");
+          image.src = url;
+          image.alt = "Photo de la randonnée";
+          image.style.width = "100%";
+          image.style.maxWidth = "250px";
+          image.style.margin = "8px";
+          image.style.borderRadius = "12px";
+          contenu.appendChild(image);
+        });
+      }
+
+      modal.style.display = "block";
+    };
+
+    fiche.append(titre, details, description, infos, boutonDetails);
+    zone.appendChild(fiche);
   });
 }
 
+// Fermeture de la fenêtre des détails
+document.getElementById("fermer-details")?.addEventListener("click", () => {
+  document.getElementById("fenetre-details").style.display = "none";
+});
 
 // Affichage des propositions dans l'espace administrateur
 async function loadPropositions() {
@@ -204,7 +242,21 @@ async function loadPropositions() {
     refuser.className = "btn";
     refuser.onclick = () => changerStatut(sortie.id, "refusee");
 
-    fiche.append(titre, details, description, valider, refuser);
+    fiche.append(titre, details, description);
+
+    if (Array.isArray(sortie.Photos)) {
+      sortie.Photos.forEach(url => {
+        const image = document.createElement("img");
+        image.src = url;
+        image.alt = "Photo proposée";
+        image.style.width = "100%";
+        image.style.maxWidth = "180px";
+        image.style.margin = "5px";
+        fiche.appendChild(image);
+      });
+    }
+
+    fiche.append(valider, refuser);
     zone.appendChild(fiche);
   });
 }
@@ -253,6 +305,7 @@ if (client) {
   actualiserEspace();
 }
 
+// Formulaire de proposition d'une randonnée
 document.getElementById("form-sortie")?.addEventListener("submit", async function(e) {
   e.preventDefault();
 
@@ -272,6 +325,41 @@ document.getElementById("form-sortie")?.addEventListener("submit", async functio
     return;
   }
 
+  const champPhotos = document.getElementById("photos-sortie");
+  const fichiers = champPhotos ? Array.from(champPhotos.files) : [];
+  const photos = [];
+
+  // Envoi des photos dans Supabase Storage
+  for (let i = 0; i < fichiers.length; i++) {
+    const fichier = fichiers[i];
+
+    if (!fichier.type.startsWith("image/")) {
+      message.textContent = "Un fichier sélectionné n'est pas une image.";
+      return;
+    }
+
+    const nomSecurise = fichier.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+    const chemin = user.id + "/" + Date.now() + "-" + i + "-" + nomSecurise;
+
+    const { error: erreurPhoto } = await client.storage
+      .from("photos-randonnees")
+      .upload(chemin, fichier, {
+        upsert: false,
+        contentType: fichier.type
+      });
+
+    if (erreurPhoto) {
+      message.textContent = "Erreur lors de l'envoi d'une photo : " + erreurPhoto.message;
+      return;
+    }
+
+    const { data: urlPhoto } = client.storage
+      .from("photos-randonnees")
+      .getPublicUrl(chemin);
+
+    photos.push(urlPhoto.publicUrl);
+  }
+
   const sortie = {
     Titre: document.getElementById("titre-sortie").value.trim(),
     Discipline: document.getElementById("discipline-sortie").value,
@@ -283,6 +371,7 @@ document.getElementById("form-sortie")?.addEventListener("submit", async functio
     Organisateur_id: user.id,
     Prix: document.getElementById("prix-sortie").value.trim(),
     Contact: document.getElementById("contact-sortie").value.trim(),
+    Photos: photos,
     Statut: "en_attente"
   };
 
@@ -299,4 +388,5 @@ document.getElementById("form-sortie")?.addEventListener("submit", async functio
   this.reset();
   await loadPropositions();
 });
+
 
