@@ -368,3 +368,15 @@ footer {
     height: 230px;
   }
 }
+/* BADGES DES DISCIPLINES */
+.badge-discipline {
+  display: inline-block;
+  background: #28543a;
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  letter-spacing: 0.3px;
+}
