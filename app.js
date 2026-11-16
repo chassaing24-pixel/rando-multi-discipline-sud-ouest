@@ -112,20 +112,27 @@ async function loadSorties() {
     ].filter(Boolean).join(" · ");
 
     
-const boutonDetails = document.createElement("button");
-boutonDetails.textContent = "Voir les détails";
-boutonDetails.className = "btn orange";
-
 boutonDetails.onclick = () => {
-  alert(
-    sortie.Titre + "\n\n" +
-    sortie.Description + "\n\n" +
-    "Départ : " + (sortie.Heure || "Non précisé") + "\n" +
-    "Lieu : " + (sortie.Lieu || "") + "\n" +
-    "Département : " + (sortie.Département || "") + "\n" +
-    "Prix : " + (sortie.Prix || "Non précisé") + "\n" +
-    "Contact : " + (sortie.Contact || "Non précisé")
-  );
+  const modal = document.getElementById("fenetre-details");
+  const contenu = document.getElementById("contenu-details");
+
+  contenu.innerHTML = `
+    <h2>${sortie.Titre || "Randonnée"}</h2>
+    <p><strong>Discipline :</strong> ${sortie.Discipline || ""}</p>
+    <p><strong>Date :</strong> ${sortie.Date_sortie || ""}</p>
+    <p><strong>Lieu :</strong> ${sortie.Lieu || ""}</p>
+    <p><strong>Description :</strong><br>${sortie.Description || ""}</p>
+    <p><strong>Départ :</strong> ${sortie.Heure || "Non précisé"}</p>
+    <p><strong>Département :</strong> ${sortie.Département || ""}</p>
+    <p><strong>Prix :</strong> ${sortie.Prix || "Non précisé"}</p>
+    <p><strong>Contact :</strong> ${sortie.Contact || "Non précisé"}</p>
+  `;
+
+  modal.style.display = "block";
+};
+
+    document.getElementById("fermer-details").onclick = () => {
+  document.getElementById("fenetre-details").style.display = "none";
 };
 
 fiche.append(titre, details, boutonDetails);
