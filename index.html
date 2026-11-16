@@ -14,6 +14,43 @@
 <div class="filters"><button class="active">Tout</button><button>Équestre</button><button>Pédestre</button><button>VTT</button><button>Trail</button></div>
 <div class="notice">La liste des sorties connectée à la base Supabase sera affichée ici après configuration.</div>
 </section>
+  
+<section id="proposer">
+  <small>PARTAGEZ VOTRE AVENTURE</small>
+  <h2>Proposer une randonnée</h2>
+  <p>Votre randonnée sera vérifiée avant sa publication.</p>
+
+  <form id="form-sortie">
+    <input id="titre-sortie" placeholder="Titre de la randonnée" required>
+
+    <select id="discipline-sortie" required>
+      <option value="">Choisir une discipline</option>
+      <option value="Équestre">Équestre</option>
+      <option value="Pédestre">Pédestre</option>
+      <option value="VTT">VTT</option>
+      <option value="Trail">Trail</option>
+    </select>
+
+    <input id="date-sortie" type="date" required>
+    <input id="heure-sortie" type="time">
+    <input id="lieu-sortie" placeholder="Lieu" required>
+    <input id="departement-sortie" placeholder="Département">
+
+    <textarea id="description-sortie"
+      placeholder="Description de la randonnée"
+      required></textarea>
+
+    <input id="prix-sortie" placeholder="Prix (ex : gratuit ou 8 €)">
+    <input id="contact-sortie" placeholder="Contact organisateur">
+
+    <button type="submit" class="btn orange">
+      Envoyer ma proposition
+    </button>
+
+    <p id="message-sortie"></p>
+  </form>
+</section>
+
 <section id="communaute" class="community"><small>ENSEMBLE, C'EST MIEUX</small><h2>Une communauté qui bouge.</h2><p>Créez votre profil, retrouvez les participants et organisez vos prochaines aventures.</p></section>
 <section id="connexion"><small>REJOIGNEZ LE MOUVEMENT</small><h2>Créer un compte / Se connecter</h2><div class="auth"><input id="email" type="email" placeholder="Votre adresse e-mail"><input id="password" type="password" placeholder="Mot de passe (8 caractères minimum)"><button class="btn orange" onclick="emailAuth('signup')">Créer mon compte</button><button class="btn" onclick="emailAuth('login')">Me connecter</button><div class="social"><button onclick="socialAuth('google')">Continuer avec Google</button><button onclick="socialAuth('facebook')">Continuer avec Facebook</button></div><p id="authmsg" aria-live="polite"></p></div></section>
 <section id="administration" style="display:none;">
