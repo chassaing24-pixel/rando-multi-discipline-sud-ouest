@@ -1,27 +1,271 @@
+
 <!doctype html>
 <html lang="fr">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Rando Multi Discipline – Sud-Ouest</title>
 <link rel="stylesheet" href="styles.css">
+
+<style>
+/* ACCUEIL */
+.hero {
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background:
+    linear-gradient(90deg, rgba(27,55,36,.88), rgba(27,55,36,.28)),
+    url("https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=1800&q=85") center/cover;
+  border-radius: 0 0 30px 30px;
+}
+
+.hero h1 {
+  max-width: 750px;
+}
+
+.hero p {
+  font-size: 18px;
+}
+
+/* DISCIPLINES */
+.disciplines {
+  margin: 0 auto;
+  gap: 18px;
+}
+
+.disciplines span {
+  padding: 18px 27px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,.07);
+  transition: .2s;
+}
+
+.disciplines span:hover {
+  transform: translateY(-4px);
+}
+
+.disciplines span:nth-child(1) {
+  border-bottom: 4px solid #d98b43;
+}
+
+.disciplines span:nth-child(2) {
+  border-bottom: 4px solid #477a4c;
+}
+
+.disciplines span:nth-child(3) {
+  border-bottom: 4px solid #528bb4;
+}
+
+.disciplines span:nth-child(4) {
+  border-bottom: 4px solid #d47770;
+}
+
+/* PRESENTATION */
+.intro {
+  text-align: center;
+  max-width: 850px;
+  margin: auto;
+}
+
+.intro p {
+  line-height: 1.8;
+  color: #657267;
+}
+
+/* SORTIES */
+#sorties {
+  background: #faf8f1;
+}
+
+#sorties .notice {
+  min-height: 100px;
+  box-shadow: 0 5px 18px rgba(40,70,45,.05);
+}
+
+/* FORMULAIRE */
+#proposer {
+  background: #e9eee4;
+}
+
+#form-sortie {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  max-width: 850px;
+  margin-top: 25px;
+}
+
+#form-sortie input,
+#form-sortie select,
+#form-sortie textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 15px;
+  border: 1px solid #d8ddcf;
+  border-radius: 12px;
+  background: #fffdf8;
+  font: inherit;
+  color: #29392d;
+}
+
+#form-sortie textarea {
+  grid-column: 1 / -1;
+  min-height: 120px;
+}
+
+#form-sortie label {
+  grid-column: 1 / -1;
+  font-weight: 700;
+}
+
+#form-sortie input[type="file"] {
+  grid-column: 1 / -1;
+}
+
+#form-sortie button,
+#form-sortie #message-sortie {
+  grid-column: 1 / -1;
+}
+
+/* COMMUNAUTE */
+.community {
+  text-align: center;
+}
+
+.community p {
+  margin: auto;
+}
+
+/* CONNEXION */
+#connexion {
+  background: #faf8f1;
+}
+
+#connexion .auth {
+  background: white;
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 5px 20px rgba(40,70,45,.06);
+}
+
+/* ADMINISTRATION */
+#administration {
+  background: #e9eee4;
+}
+
+/* PIED DE PAGE */
+footer {
+  background: #244b34;
+  color: #f5f1e7;
+  padding: 35px 15px;
+  line-height: 1.8;
+}
+
+/* TELEPHONE */
+@media(max-width:650px) {
+  .hero {
+    min-height: 430px;
+    border-radius: 0 0 22px 22px;
+  }
+
+  #form-sortie {
+    grid-template-columns: 1fr;
+  }
+
+  #form-sortie textarea,
+  #form-sortie label,
+  #form-sortie input[type="file"],
+  #form-sortie button,
+  #form-sortie #message-sortie {
+    grid-column: 1;
+  }
+
+  .disciplines span {
+    padding: 14px 18px;
+  }
+}
+</style>
 </head>
+
 <body>
-<header class="top"><a class="brand" href="#">🥾 Rando <span>Multi Discipline</span></a><nav><a href="#sorties">Sorties</a><a href="#communaute">Communauté</a><a href="#connexion" class="btn">Connexion / Inscription</a></nav></header>
+
+<header class="top">
+  <a class="brand" href="#">
+    🥾 Rando <span>Multi Discipline</span>
+  </a>
+  <nav>
+    <a href="#sorties">Sorties</a>
+    <a href="#communaute">Communauté</a>
+    <a href="#connexion" class="btn">Connexion / Inscription</a>
+  </nav>
+</header>
+
 <main>
-<section class="hero"><div class="tag">LE SUD-OUEST À VIVRE ENSEMBLE</div><h1>La prochaine aventure<br><em>se partage.</em></h1><p>Rencontrez des passionnés et partagez vos sorties à cheval, à pied, en VTT ou en trail.</p><a class="btn orange" href="#sorties">Découvrir les sorties</a></section>
-<section class="disciplines"><span>🐎 Équestre</span><span>🥾 Pédestre</span><span>🚵 VTT</span><span>🏃 Trail</span></section>
-<section id="sorties"><div class="sectionhead"><div><small>À L'AFFICHE</small><h2>Sorties & événements</h2></div><button class="btn" onclick="document.querySelector('#connexion').scrollIntoView({behavior:'smooth'})">＋ Proposer une sortie</button></div>
-<div class="filters"><button class="active">Tout</button><button>Équestre</button><button>Pédestre</button><button>VTT</button><button>Trail</button></div>
-<div class="notice">La liste des sorties connectée à la base Supabase sera affichée ici après configuration.</div>
+
+<section class="hero">
+  <div class="tag">LE SUD-OUEST À VIVRE ENSEMBLE</div>
+  <h1>La prochaine aventure<br><em>se partage.</em></h1>
+  <p>
+    Rencontrez des passionnés et partagez vos sorties
+    à cheval, à pied, en VTT ou en trail.
+  </p>
+  <a class="btn orange" href="#sorties">
+    Découvrir les sorties
+  </a>
 </section>
-  
+
+<section class="disciplines">
+  <span>🐎 Équestre</span>
+  <span>🥾 Pédestre</span>
+  <span>🚵 VTT</span>
+  <span>🏃 Trail</span>
+</section>
+
+<section class="intro">
+  <small>LA PASSION DU PLEIN AIR</small>
+  <h2>Explorez le Sud-Ouest autrement</h2>
+  <p>
+    Retrouvez les manifestations et randonnées organisées
+    près de chez vous. Partagez vos aventures, découvrez
+    de nouveaux endroits et rencontrez d'autres passionnés.
+  </p>
+</section>
+
+<section id="sorties">
+  <div class="sectionhead">
+    <div>
+      <small>À L'AFFICHE</small>
+      <h2>Sorties & événements</h2>
+    </div>
+    <button class="btn"
+      onclick="document.querySelector('#proposer').scrollIntoView({behavior:'smooth'})">
+      ＋ Proposer une sortie
+    </button>
+  </div>
+
+  <div class="filters">
+    <button class="active">Tout</button>
+    <button>Équestre</button>
+    <button>Pédestre</button>
+    <button>VTT</button>
+    <button>Trail</button>
+  </div>
+
+  <div class="notice">
+    Chargement des randonnées...
+  </div>
+</section>
+
 <section id="proposer">
   <small>PARTAGEZ VOTRE AVENTURE</small>
   <h2>Proposer une randonnée</h2>
   <p>Votre randonnée sera vérifiée avant sa publication.</p>
 
   <form id="form-sortie">
-    <input id="titre-sortie" placeholder="Titre de la randonnée" required>
+
+    <input id="titre-sortie"
+      placeholder="Titre de la randonnée" required>
 
     <select id="discipline-sortie" required>
       <option value="">Choisir une discipline</option>
@@ -33,44 +277,113 @@
 
     <input id="date-sortie" type="date" required>
     <input id="heure-sortie" type="time">
-    <input id="lieu-sortie" placeholder="Lieu" required>
-    <input id="departement-sortie" placeholder="Département">
+
+    <input id="lieu-sortie"
+      placeholder="Lieu" required>
+
+    <input id="departement-sortie"
+      placeholder="Département">
 
     <textarea id="description-sortie"
       placeholder="Description de la randonnée"
       required></textarea>
 
-    <input id="prix-sortie" placeholder="Prix (ex : gratuit ou 8 €)">
-    <input id="contact-sortie" placeholder="Contact organisateur">
+    <input id="prix-sortie"
+      placeholder="Prix (ex : gratuit ou 8 €)">
 
-<label for="photos-sortie">Photos de la randonnée (plusieurs possibles)</label>
-<input id="photos-sortie" type="file" accept="image/*" multiple>
+    <input id="contact-sortie"
+      placeholder="Contact organisateur">
+
+    <label for="photos-sortie">
+      Photos de la randonnée (plusieurs possibles)
+    </label>
+
+    <input id="photos-sortie"
+      type="file" accept="image/*" multiple>
 
     <button type="submit" class="btn orange">
       Envoyer ma proposition
     </button>
 
     <p id="message-sortie"></p>
+
   </form>
 </section>
 
-<section id="communaute" class="community"><small>ENSEMBLE, C'EST MIEUX</small><h2>Une communauté qui bouge.</h2><p>Créez votre profil, retrouvez les participants et organisez vos prochaines aventures.</p></section>
-<section id="connexion"><small>REJOIGNEZ LE MOUVEMENT</small><h2>Créer un compte / Se connecter</h2><div class="auth"><input id="email" type="email" placeholder="Votre adresse e-mail"><input id="password" type="password" placeholder="Mot de passe (8 caractères minimum)"><button class="btn orange" onclick="emailAuth('signup')">Créer mon compte</button><button class="btn" onclick="emailAuth('login')">Me connecter</button><div class="social"><button onclick="socialAuth('google')">Continuer avec Google</button><button onclick="socialAuth('facebook')">Continuer avec Facebook</button></div><p id="authmsg" aria-live="polite"></p></div></section>
+<section id="communaute" class="community">
+  <small>ENSEMBLE, C'EST MIEUX</small>
+  <h2>Une communauté qui bouge.</h2>
+  <p>
+    Créez votre profil, retrouvez les participants
+    et organisez vos prochaines aventures.
+  </p>
+</section>
+
+<section id="connexion">
+  <small>REJOIGNEZ LE MOUVEMENT</small>
+  <h2>Créer un compte / Se connecter</h2>
+
+  <div class="auth">
+    <input id="email" type="email"
+      placeholder="Votre adresse e-mail">
+
+    <input id="password" type="password"
+      placeholder="Mot de passe (8 caractères minimum)">
+
+    <button class="btn orange"
+      onclick="emailAuth('signup')">
+      Créer mon compte
+    </button>
+
+    <button class="btn"
+      onclick="emailAuth('login')">
+      Me connecter
+    </button>
+
+    <div class="social">
+      <button onclick="socialAuth('google')">
+        Continuer avec Google
+      </button>
+
+      <button onclick="socialAuth('facebook')">
+        Continuer avec Facebook
+      </button>
+    </div>
+
+    <p id="authmsg" aria-live="polite"></p>
+  </div>
+</section>
+
 <section id="administration" style="display:none;">
   <small>ESPACE ADMINISTRATEUR</small>
   <h2>Gestion des randonnées</h2>
   <p>Les randonnées proposées par les membres apparaîtront ici.</p>
+
   <div id="sorties-en-attente">
     Chargement des propositions...
   </div>
-</section> </main><footer>© Rando Multi Discipline – Sud-Ouest · Gratuit pour les membres</footer>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase/config.js"></script><script src="app.js"></script>
-  
+</section>
+
+</main>
+
+<footer>
+  🥾 <strong>Rando Multi Discipline – Sud-Ouest</strong>
+  <p>Le plaisir de partager les aventures en plein air.</p>
+  © Rando Multi Discipline – Sud-Ouest · Gratuit pour les membres
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase/config.js"></script>
+<script src="app.js"></script>
+
 <div id="fenetre-details" class="modal-details">
   <div class="modal-contenu">
-    <button id="fermer-details" class="btn orange">Fermer ✕</button>
+    <button id="fermer-details" class="btn orange">
+      Fermer ✕
+    </button>
     <div id="contenu-details"></div>
   </div>
 </div>
 
-</body></html>
+</body>
+</html>
