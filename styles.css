@@ -33,3 +33,38 @@
   border-radius: 10px;
   color: #244d35;
 }
+
+/* Fenêtre détaillée des randonnées */
+.modal-details {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  z-index: 9999;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.modal-contenu {
+  background: white;
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+}
+
+.modal-contenu h2 {
+  color: #244d35;
+  margin-top: 0;
+}
+
+.modal-contenu p {
+  line-height: 1.7;
+  color: #4b5563;
+}
+
+#fermer-details {
+  margin-bottom: 20px;
+}
+
