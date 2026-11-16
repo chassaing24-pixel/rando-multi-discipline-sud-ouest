@@ -175,6 +175,23 @@ async function loadSorties() {
   });
 }
 
+    // Photo de couverture de la randonnée
+    const photoCouverture = Array.isArray(sortie.Photos)
+      ? sortie.Photos[0]
+      : null;
+
+    if (photoCouverture) {
+      const imageCouverture = document.createElement("img");
+      imageCouverture.src = photoCouverture;
+      imageCouverture.alt = "Photo de la randonnée";
+      imageCouverture.style.width = "100%";
+      imageCouverture.style.height = "200px";
+      imageCouverture.style.objectFit = "cover";
+      imageCouverture.style.borderRadius = "14px";
+      imageCouverture.style.marginBottom = "15px";
+      fiche.appendChild(imageCouverture);
+    }
+
 // Fermeture de la fenêtre des détails
 document.getElementById("fermer-details")?.addEventListener("click", () => {
   document.getElementById("fenetre-details").style.display = "none";
