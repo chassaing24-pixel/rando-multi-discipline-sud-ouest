@@ -111,8 +111,26 @@ async function loadSorties() {
       sortie.Contact ? "Contact : " + sortie.Contact : ""
     ].filter(Boolean).join(" · ");
 
-    fiche.append(titre, details, description, infos);
-    zone.appendChild(fiche);
+    
+const boutonDetails = document.createElement("button");
+boutonDetails.textContent = "Voir les détails";
+boutonDetails.className = "btn orange";
+
+boutonDetails.onclick = () => {
+  alert(
+    sortie.Titre + "\n\n" +
+    sortie.Description + "\n\n" +
+    "Départ : " + (sortie.Heure || "Non précisé") + "\n" +
+    "Lieu : " + (sortie.Lieu || "") + "\n" +
+    "Département : " + (sortie.Département || "") + "\n" +
+    "Prix : " + (sortie.Prix || "Non précisé") + "\n" +
+    "Contact : " + (sortie.Contact || "Non précisé")
+  );
+};
+
+fiche.append(titre, details, boutonDetails);
+zone.appendChild(fiche);
+
   });
 }
 
