@@ -66,10 +66,7 @@ async function socialAuth(provider) {
 // Affichage des détails d'une randonnée
 function ajouterDetail(contenu, label, valeur) {
   const ligne = document.createElement("p");
-  // Badge de la discipline
-const badgeDiscipline = document.createElement("span");
-badgeDiscipline.textContent = sortie.Discipline || "Randonnée";
-badgeDiscipline.className = "badge-discipline";
+
 
 fiche.appendChild(badgeDiscipline);
   const titre = document.createElement("strong");
@@ -78,18 +75,7 @@ fiche.appendChild(badgeDiscipline);
   ligne.append(titre, document.createTextNode(valeur || "Non précisé"));
   contenu.appendChild(ligne);
 }
-/* BADGES DES DISCIPLINES */
-.badge-discipline {
-  display: inline-block;
-  background: #28543a;
-  color: #ffffff;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 14px;
-  font-weight: bold;
-  margin-bottom: 12px;
-  letter-spacing: 0.3px;
-}
+
 // Affichage des randonnées publiées
 
 async function loadSorties() {
@@ -136,7 +122,12 @@ async function loadSorties() {
       image.style.marginBottom = "15px";
       fiche.appendChild(image);
     }
+// Badge de la discipline
+const badgeDiscipline = document.createElement("span");
+badgeDiscipline.textContent = sortie.Discipline || "Randonnée";
+badgeDiscipline.className = "badge-discipline";
 
+fiche.appendChild(badgeDiscipline);
     const titre = document.createElement("h3");
     titre.textContent = sortie.Titre || "Randonnée";
 
