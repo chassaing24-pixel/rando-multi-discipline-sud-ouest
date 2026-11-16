@@ -74,6 +74,7 @@ function ajouterDetail(contenu, label, valeur) {
 }
 
 // Affichage des randonnées publiées
+
 async function loadSorties() {
   const zone = document.querySelector("#sorties .notice");
   if (!zone || !client) return;
@@ -83,6 +84,7 @@ async function loadSorties() {
   const { data, error } = await client
     .from("Sorties")
     .select("*")
+    .eq("Statut", "publie")
     .order("Date_sortie", { ascending: true });
 
   if (error) {
@@ -100,6 +102,23 @@ async function loadSorties() {
   data.forEach(sortie => {
     const fiche = document.createElement("article");
     fiche.className = "sortie-card";
+
+    // Photo de couverture
+    const photos = Array.isArray(sortie.Photos)
+      ? sortie.Photos
+      : [];
+
+    if (photos.length > 0) {
+      const image = document.createElement("img");
+      image.src = photos[0];
+      image.alt = "Photo de la randonnée";
+      image.style.width = "100%";
+      image.style.height = "200px";
+      image.style.objectFit = "cover";
+      image.style.borderRadius = "14px";
+      image.style.marginBottom = "15px";
+      fiche.appendChild(image);
+    }
 
     const titre = document.createElement("h3");
     titre.textContent = sortie.Titre || "Randonnée";
@@ -146,10 +165,6 @@ async function loadSorties() {
       ajouterDetail(contenu, "Prix", sortie.Prix);
       ajouterDetail(contenu, "Contact", sortie.Contact);
 
-      const photos = Array.isArray(sortie.Photos)
-        ? sortie.Photos
-        : [];
-
       if (photos.length > 0) {
         const titrePhotos = document.createElement("h3");
         titrePhotos.textContent = "Photos de la randonnée";
@@ -175,24 +190,6 @@ async function loadSorties() {
   });
 }
 
-    // Photo de couverture de la randonnée
-    const photoCouverture = Array.isArray(sortie.Photos)
-      ? sortie.Photos[0]
-      : null;
-
-    if (photoCouverture) {
-      const imageCouverture = document.createElement("img");
-      imageCouverture.src = photoCouverture;
-      imageCouverture.alt = "Photo de la randonnée";
-      imageCouverture.style.width = "100%";
-      imageCouverture.style.height = "200px";
-      imageCouverture.style.objectFit = "cover";
-      imageCouverture.style.borderRadius = "14px";
-      imageCouverture.style.marginBottom = "15px";
-      fiche.appendChild(imageCouverture);
-    }
-
-// Fermeture de la fenêtre des détails
 document.getElementById("fermer-details")?.addEventListener("click", () => {
   document.getElementById("fenetre-details").style.display = "none";
 });
