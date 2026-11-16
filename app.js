@@ -53,5 +53,110 @@ async function socialAuth(provider) {
     if (error) msg.textContent = error.message;
   } catch (error) {
     msg.textContent = "Erreur : " + error.message;
+  
   }
 }
+
+
+async function loadSorties() {
+  const zone = document.querySelector("#sorties .notice");
+  if (!zone) return;
+
+  zone.textContent = "Chargement des randonnées...";
+
+  if (!client) {
+    zone.textContent = "Connexion à la base de données impossible.";
+    return;
+  }
+
+  const { data, error } = await client
+    .from("Sorties")
+    .select("*")
+    .order("Date_sortie", { ascending: true });
+
+  if (error) {
+    zone.textContent = "Erreur : " + error.message;
+    return;
+  }
+
+  zone.replaceChildren();
+
+  if (!data || data.length === 0) {
+    zone.textContent = "Aucune randonnée publiée pour le moment.";
+    return;
+  }
+
+  data.forEach(sortie => {
+    const fiche = document.createElement("article");
+    fiche.className = "sortie-card";
+
+    const titre = document.createElement("h3");
+    titre.textContent = sortie.Titre || "Randonnée";
+
+    const details = document.createElement("p");
+    details.textContent =
+      (sortie.Discipline || "") + " · " +
+      (sortie.Date_sortie || "") + " · " +
+      (sortie.Lieu || "");
+
+    const description = document.createElement("p");
+    description.textContent = sortie.Description || "";
+
+    fiche.append(titre, details, description);
+    zone.appendChild(fiche);
+  });
+}
+
+
+async function loadSorties() {
+  const zone = document.querySelector("#sorties .notice");
+  if (!zone) return;
+
+  zone.textContent = "Chargement des randonnées...";
+
+  if (!client) {
+    zone.textContent = "Connexion à la base de données impossible.";
+    return;
+  }
+
+  const { data, error } = await client
+    .from("Sorties")
+    .select("*")
+    .order("Date_sortie", { ascending: true });
+
+  if (error) {
+    zone.textContent = "Erreur : " + error.message;
+    return;
+  }
+
+  zone.replaceChildren();
+
+  if (!data || data.length === 0) {
+    zone.textContent = "Aucune randonnée publiée pour le moment.";
+    return;
+  }
+
+  data.forEach(sortie => {
+    const fiche = document.createElement("article");
+    fiche.className = "sortie-card";
+
+    const titre = document.createElement("h3");
+    titre.textContent = sortie.Titre || "Randonnée";
+
+    const details = document.createElement("p");
+    details.textContent =
+      (sortie.Discipline || "") + " · " +
+      (sortie.Date_sortie || "") + " · " +
+      (sortie.Lieu || "");
+
+    const description = document.createElement("p");
+    description.textContent = sortie.Description || "";
+
+    fiche.append(titre, details, description);
+    zone.appendChild(fiche);
+  });
+}
+
+loadSorties();
+
+
