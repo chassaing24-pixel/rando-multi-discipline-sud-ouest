@@ -66,9 +66,6 @@ async function socialAuth(provider) {
 // Affichage des détails d'une randonnée
 function ajouterDetail(contenu, label, valeur) {
   const ligne = document.createElement("p");
-
-
-fiche.appendChild(badgeDiscipline);
   const titre = document.createElement("strong");
 
   titre.textContent = label + " : ";
