@@ -218,3 +218,50 @@ if (client) {
   actualiserEspace();
 }
 
+document.getElementById("form-sortie")?.addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const message = document.getElementById("message-sortie");
+  message.textContent = "Envoi en cours...";
+
+  if (!client) {
+    message.textContent = "Connexion à Supabase impossible.";
+    return;
+  }
+
+  const { data: userData } = await client.auth.getUser();
+  const user = userData.user;
+
+  if (!user) {
+    message.textContent = "Connectez-vous avant de proposer une randonnée.";
+    return;
+  }
+
+  const sortie = {
+    Titre: document.getElementById("titre-sortie").value.trim(),
+    Discipline: document.getElementById("discipline-sortie").value,
+    Description: document.getElementById("description-sortie").value.trim(),
+    Date_sortie: document.getElementById("date-sortie").value,
+    Heure: document.getElementById("heure-sortie").value,
+    Lieu: document.getElementById("lieu-sortie").value.trim(),
+    Département: document.getElementById("departement-sortie").value.trim(),
+    Organisateur_id: user.id,
+    Prix: document.getElementById("prix-sortie").value.trim(),
+    Contact: document.getElementById("contact-sortie").value.trim(),
+    Statut: "en_attente"
+  };
+
+  const { error } = await client
+    .from("Sorties")
+    .insert([sortie]);
+
+  if (error) {
+    message.textContent = "Erreur : " + error.message;
+    return;
+  }
+
+  message.textContent = "Proposition envoyée ! Elle sera vérifiée avant publication.";
+  this.reset();
+  await loadPropositions();
+});
+
