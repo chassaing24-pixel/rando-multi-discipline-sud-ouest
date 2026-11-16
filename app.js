@@ -63,6 +63,7 @@ async function socialAuth(provider) {
 }
 
 // Affichage des randonnées publiées
+
 async function loadSorties() {
   const zone = document.querySelector("#sorties .notice");
   if (!zone || !client) return;
@@ -99,27 +100,22 @@ async function loadSorties() {
       (sortie.Date_sortie || "") + " · " +
       (sortie.Lieu || "");
 
+    const description = document.createElement("p");
+    description.textContent = sortie.Description || "";
 
-const details = document.createElement("p");
-details.textContent =
-  (sortie.Discipline || "") + " · " +
-  (sortie.Date_sortie || "") + " · " +
-  (sortie.Lieu || "");
+    const infos = document.createElement("p");
+    infos.textContent = [
+      sortie.Heure ? "Départ : " + sortie.Heure : "",
+      sortie.Département ? "Département : " + sortie.Département : "",
+      sortie.Prix ? "Prix : " + sortie.Prix : "",
+      sortie.Contact ? "Contact : " + sortie.Contact : ""
+    ].filter(Boolean).join(" · ");
 
-const description = document.createElement("p");
-description.textContent = sortie.Description || "";
-
-const infos = document.createElement("p");
-infos.textContent = [
-  sortie.Heure ? "Départ : " + sortie.Heure : "",
-  sortie.Département ? "Département : " + sortie.Département : "",
-  sortie.Prix ? "Prix : " + sortie.Prix : "",
-  sortie.Contact ? "Contact : " + sortie.Contact : ""
-].filter(Boolean).join(" · ");
-
-fiche.append(titre, details, description, infos);
-
+    fiche.append(titre, details, description, infos);
+    zone.appendChild(fiche);
+  });
 }
+
 
 // Affichage des propositions dans l'espace administrateur
 async function loadPropositions() {
