@@ -1,70 +1,317 @@
-*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,Arial;color:#203126;background:#f8f7f1}a{color:inherit;text-decoration:none}.top{display:flex;justify-content:space-between;align-items:center;padding:20px 7%;background:#fff;position:sticky;top:0;z-index:2}.brand{font-weight:900;font-size:20px}.brand span{color:#47734e}.top nav{display:flex;gap:24px;align-items:center}.btn,button{border:0;border-radius:24px;padding:12px 20px;background:#e9eee5;color:#203126;font-weight:700;cursor:pointer}.orange{background:#ef9a39;color:#fff}.hero{padding:100px 10%;background:linear-gradient(110deg,#203c2b,#426d4b);color:#fff;min-height:430px}.tag,small{font-size:12px;letter-spacing:2px;font-weight:800;color:#e59a3c}.hero h1{font-size:clamp(42px,6vw,76px);line-height:1.02;margin:22px 0}.hero em{color:#f5a13e;font-style:normal}.hero p{max-width:520px;line-height:1.7;margin-bottom:28px}.disciplines{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;padding:25px}.disciplines span{background:white;border-radius:28px;padding:13px 22px;font-weight:700}section:not(.hero):not(.disciplines){padding:65px 10%}.sectionhead{display:flex;justify-content:space-between;align-items:center;gap:15px}h2{font-size:36px;margin:10px 0 24px}.filters{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}.filters button.active{background:#315a3d;color:#fff}.notice{padding:30px;background:#fff;border:1px dashed #c7d3c5;border-radius:16px;color:#607164}.community{background:#e8eee4}.community p{max-width:600px;line-height:1.7}.auth{display:grid;gap:12px;max-width:420px}.auth input{padding:14px;border:1px solid #d6ded3;border-radius:12px;font:inherit}.social{display:grid;gap:10px;margin-top:8px}.social button{background:#fff;border:1px solid #ddd}#authmsg{color:#315a3d}footer{text-align:center;padding:30px;color:#68766a}@media(max-width:650px){.top{align-items:flex-start;gap:12px;flex-direction:column}.top nav{gap:12px;flex-wrap:wrap}.hero{padding:70px 7%}.sectionhead{align-items:flex-start;flex-direction:column}section:not(.hero):not(.disciplines){padding:45px 7%}}
 
-/* Fiches de randonnée */
+/* DESIGN GENERAL */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, Arial, sans-serif;
+  color: #29392d;
+  background: #f5f1e7;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* BARRE DE NAVIGATION */
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 7%;
+  background: #fffdf8;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  box-shadow: 0 3px 15px rgba(32, 60, 43, 0.08);
+}
+
+.brand {
+  font-weight: 900;
+  font-size: 22px;
+  color: #28543a;
+}
+
+.brand span {
+  color: #e69a3b;
+}
+
+.top nav {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.top nav a:hover {
+  color: #df8730;
+}
+
+/* BOUTONS */
+.btn,
+button {
+  border: 0;
+  border-radius: 25px;
+  padding: 13px 22px;
+  background: #e8e9dc;
+  color: #294832;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn:hover,
+button:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+.orange {
+  background: #e99338;
+  color: white;
+}
+
+/* GRANDE BANNIERE */
+.hero {
+  padding: 100px 10%;
+  background: linear-gradient(115deg, #244b34, #527c56);
+  color: white;
+  min-height: 440px;
+}
+
+.tag,
+small {
+  font-size: 12px;
+  letter-spacing: 2px;
+  font-weight: 800;
+  color: #f2b65c;
+}
+
+.hero h1 {
+  font-size: clamp(42px, 6vw, 76px);
+  line-height: 1.05;
+  margin: 22px 0;
+}
+
+.hero em {
+  color: #f2b65c;
+  font-style: normal;
+}
+
+.hero p {
+  max-width: 540px;
+  line-height: 1.8;
+  margin-bottom: 28px;
+}
+
+/* DISCIPLINES */
+.disciplines {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 30px 20px;
+  background: #eee8d9;
+}
+
+.disciplines span {
+  background: white;
+  border-radius: 28px;
+  padding: 14px 23px;
+  font-weight: 800;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+}
+
+/* SECTIONS */
+section:not(.hero):not(.disciplines) {
+  padding: 65px 10%;
+}
+
+.sectionhead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+h2 {
+  font-size: 36px;
+  color: #28543a;
+  margin: 10px 0 24px;
+}
+
+/* FILTRES */
+.filters {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 20px 0;
+}
+
+.filters button.active {
+  background: #315c40;
+  color: white;
+}
+
+/* LISTE DES RANDONNEES */
+.notice {
+  padding: 30px;
+  background: #fffdf8;
+  border: 1px dashed #c9d2bd;
+  border-radius: 18px;
+  color: #607164;
+}
+
 .sortie-card {
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 16px;
-  padding: 20px;
-  margin-bottom: 18px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  background: #fffdf8;
+  border: 1px solid #e7dfcf;
+  border-radius: 18px;
+  padding: 22px;
+  margin-bottom: 20px;
+  box-shadow: 0 5px 18px rgba(40, 70, 45, 0.07);
 }
 
 .sortie-card h3 {
-  color: #244d35;
-  font-size: 21px;
+  color: #28543a;
+  font-size: 22px;
   margin: 0 0 12px;
 }
 
 .sortie-card p {
-  color: #4b5563;
+  color: #59665b;
   line-height: 1.7;
   margin: 8px 0;
 }
 
 .sortie-card p:first-of-type {
-  font-weight: 600;
-  color: #6b7280;
+  font-weight: 700;
+  color: #bd7731;
 }
 
 .sortie-card p:last-of-type {
-  background: #f3f7f2;
+  background: #f0f2e9;
   padding: 12px;
   border-radius: 10px;
-  color: #244d35;
+  color: #31543a;
 }
 
-/* Fenêtre détaillée des randonnées */
+.sortie-card img {
+  border-radius: 12px;
+}
+
+/* ESPACE COMMUNAUTE */
+.community {
+  background: #e8eee2;
+}
+
+.community p {
+  max-width: 600px;
+  line-height: 1.8;
+}
+
+/* CONNEXION */
+.auth {
+  display: grid;
+  gap: 12px;
+  max-width: 420px;
+}
+
+.auth input {
+  padding: 14px;
+  border: 1px solid #d6d7c9;
+  border-radius: 12px;
+  font: inherit;
+  background: white;
+}
+
+.social {
+  display: grid;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.social button {
+  background: white;
+  border: 1px solid #ddd8ca;
+}
+
+#authmsg {
+  color: #315a3d;
+}
+
+/* FENETRE DES DETAILS */
 .modal-details {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.65);
+  background: rgba(25, 40, 29, 0.75);
   z-index: 9999;
   padding: 20px;
   overflow-y: auto;
 }
 
 .modal-contenu {
-  background: white;
+  background: #fffdf8;
   max-width: 600px;
   margin: 40px auto;
   padding: 25px;
   border-radius: 20px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.25);
 }
 
 .modal-contenu h2 {
-  color: #244d35;
+  color: #28543a;
   margin-top: 0;
 }
 
 .modal-contenu p {
   line-height: 1.7;
-  color: #4b5563;
+  color: #59665b;
 }
 
 #fermer-details {
   margin-bottom: 20px;
+  background: #e99338;
+  color: white;
 }
 
+/* PIED DE PAGE */
+footer {
+  text-align: center;
+  padding: 35px;
+  color: #f5f1e7;
+  background: #244b34;
+}
+
+/* AFFICHAGE SUR TELEPHONE */
+@media (max-width: 650px) {
+  .top {
+    align-items: flex-start;
+    gap: 12px;
+    flex-direction: column;
+  }
+
+  .top nav {
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .hero {
+    padding: 70px 7%;
+  }
+
+  .sectionhead {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  section:not(.hero):not(.disciplines) {
+    padding: 45px 7%;
+  }
+
+  h2 {
+    font-size: 29px;
+  }
+}
