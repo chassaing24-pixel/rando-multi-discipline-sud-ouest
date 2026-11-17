@@ -567,3 +567,12 @@ calendrier.querySelectorAll(".evenement-calendrier").forEach(bouton => {
     afficherCalendrier(sorties);
   });
 }
+// FERMETURE DE LA FENETRE DETAILS
+document.getElementById("fermer-details")
+  ?.addEventListener("click", () => {
+    const modal = document.getElementById("fenetre-details");
+
+    if (modal) {
+      modal.style.display = "none";
+    }
+  });
