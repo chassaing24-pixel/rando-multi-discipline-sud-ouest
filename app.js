@@ -1,5 +1,8 @@
 
 const cfg = window.SUPABASE_CONFIG || {};
+
+let disciplineActive = "Toutes";
+
 const client = (window.supabase && cfg.url && cfg.anonKey)
   ? window.supabase.createClient(cfg.url, cfg.anonKey)
   : null;
