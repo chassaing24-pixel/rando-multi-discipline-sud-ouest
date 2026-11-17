@@ -232,14 +232,23 @@ async function loadPropositions() {
     return;
   }
 
-  zone.replaceChildren();
+    zone.replaceChildren();
 
   if (!data || data.length === 0) {
-    zone.textContent = "Aucune proposition en attente.";
+    zone.textContent = "Aucune randonnée publiée pour le moment.";
     return;
   }
 
-  data.forEach(sortie => {
+  const sortiesFiltrees = disciplineActive === "Toutes"
+    ? data
+    : data.filter(sortie => sortie.Discipline === disciplineActive);
+
+  if (sortiesFiltrees.length === 0) {
+    zone.textContent = "Aucune randonnée dans cette discipline pour le moment.";
+    return;
+  }
+
+  sortiesFiltrees.forEach(sortie => {
     const fiche = document.createElement("article");
     fiche.className = "sortie-card";
 
