@@ -403,3 +403,27 @@ footer {
   background: #28543a;
   color: white;
 }
+/* RECHERCHE PAR DEPARTEMENT */
+.recherche-departement {
+  display: block;
+  width: 100%;
+  margin: 20px 0;
+}
+
+.recherche-departement input {
+  display: block;
+  width: 100%;
+  max-width: 450px;
+  padding: 15px 18px;
+  border: 2px solid #c9d2bd;
+  border-radius: 14px;
+  background: #fffdf8;
+  color: #28543a;
+  font-size: 16px;
+  outline: none;
+}
+
+.recherche-departement input:focus {
+  border-color: #28543a;
+  box-shadow: 0 0 0 3px rgba(40, 84, 58, 0.12);
+}
