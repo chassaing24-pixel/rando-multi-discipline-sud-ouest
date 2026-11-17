@@ -2,7 +2,7 @@
 const cfg = window.SUPABASE_CONFIG || {};
 
 let disciplineActive = "Toutes";
-
+let rechercheDepartement = "";
 const client = (window.supabase && cfg.url && cfg.anonKey)
   ? window.supabase.createClient(cfg.url, cfg.anonKey)
   : null;
