@@ -269,7 +269,7 @@ const normaliser = valeur => (valeur || "")
 const sortiesFiltrees = data.filter(sortie => {
   const disciplineOK =
     disciplineActive === "Toutes" ||
-    sortie.Discipline === disciplineActive;
+normaliser(sortie.Discipline).includes(normaliser(disciplineActive));
 
   const departement = normaliser(sortie.Département);
 
