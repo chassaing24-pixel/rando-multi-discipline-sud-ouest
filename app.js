@@ -463,13 +463,12 @@ document.getElementById("form-sortie")?.addEventListener("submit", async functio
 });
 
 // CALENDRIER DES RANDONNEES
+let moisCalendrier = new Date().getMonth();
+let anneeCalendrier = new Date().getFullYear();
+
 function afficherCalendrier(sorties) {
   const calendrier = document.getElementById("calendrier-sorties");
   if (!calendrier) return;
-
-  const aujourdHui = new Date();
-  const mois = aujourdHui.getMonth();
-  const annee = aujourdHui.getFullYear();
 
   const nomMois = [
     "Janvier", "Février", "Mars", "Avril",
@@ -477,12 +476,75 @@ function afficherCalendrier(sorties) {
     "Septembre", "Octobre", "Novembre", "Décembre"
   ];
 
-  calendrier.innerHTML = `
+  const premierJour = new Date(anneeCalendrier, moisCalendrier, 1);
+  const nombreJours = new Date(anneeCalendrier, moisCalendrier + 1, 0).getDate();
+
+  // Lundi = 0, dimanche = 6
+  const decalage = (premierJour.getDay() + 6) % 7;
+
+  let html = `
     <div class="calendrier-navigation">
       <button id="mois-precedent" type="button">←</button>
-      <h3>${nomMois[mois]} ${annee}</h3>
+      <h3>${nomMois[moisCalendrier]} ${anneeCalendrier}</h3>
       <button id="mois-suivant" type="button">→</button>
     </div>
-    <p>Les dates des randonnées publiées apparaîtront ici.</p>
+
+    <div class="calendrier-grille">
+      <div class="jour-semaine">Lun</div>
+      <div class="jour-semaine">Mar</div>
+      <div class="jour-semaine">Mer</div>
+      <div class="jour-semaine">Jeu</div>
+      <div class="jour-semaine">Ven</div>
+      <div class="jour-semaine">Sam</div>
+      <div class="jour-semaine">Dim</div>
   `;
+
+  for (let i = 0; i < decalage; i++) {
+    html += `<div class="case-jour vide"></div>`;
+  }
+
+  for (let jour = 1; jour <= nombreJours; jour++) {
+    const dateRecherche = [
+      anneeCalendrier,
+      String(moisCalendrier + 1).padStart(2, "0"),
+      String(jour).padStart(2, "0")
+    ].join("-");
+
+    const evenements = (sorties || []).filter(sortie =>
+      sortie.Date_sortie === dateRecherche
+    );
+
+    html += `
+      <div class="case-jour">
+        <strong>${jour}</strong>
+        ${evenements.map(sortie => `
+          <div class="evenement-calendrier">
+            ${sortie.Titre || "Randonnée"}
+          </div>
+        `).join("")}
+      </div>
+    `;
+  }
+
+  html += `</div>`;
+
+  calendrier.innerHTML = html;
+
+  document.getElementById("mois-precedent").addEventListener("click", () => {
+    moisCalendrier--;
+    if (moisCalendrier < 0) {
+      moisCalendrier = 11;
+      anneeCalendrier--;
+    }
+    afficherCalendrier(sorties);
+  });
+
+  document.getElementById("mois-suivant").addEventListener("click", () => {
+    moisCalendrier++;
+    if (moisCalendrier > 11) {
+      moisCalendrier = 0;
+      anneeCalendrier++;
+    }
+    afficherCalendrier(sorties);
+  });
 }
