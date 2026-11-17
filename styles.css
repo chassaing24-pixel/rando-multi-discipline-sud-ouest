@@ -380,3 +380,26 @@ footer {
   margin-bottom: 12px;
   letter-spacing: 0.3px;
 }
+
+/* FILTRES DES DISCIPLINES */
+.filtres-discipline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.filtres-discipline button {
+  border: 1px solid #28543a;
+  background: #fffdf8;
+  color: #28543a;
+  padding: 11px 20px;
+  border-radius: 25px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.filtres-discipline button.filtre-actif {
+  background: #28543a;
+  color: white;
+}
