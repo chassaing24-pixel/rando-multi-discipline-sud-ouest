@@ -97,6 +97,8 @@ async function loadSorties() {
 
   zone.replaceChildren();
 
+  afficherCalendrier(data);
+
   if (!data || data.length === 0) {
     zone.textContent = "Aucune randonnée publiée pour le moment.";
     return;
@@ -460,4 +462,27 @@ document.getElementById("form-sortie")?.addEventListener("submit", async functio
   await loadPropositions();
 });
 
+// CALENDRIER DES RANDONNEES
+function afficherCalendrier(sorties) {
+  const calendrier = document.getElementById("calendrier-sorties");
+  if (!calendrier) return;
 
+  const aujourdHui = new Date();
+  const mois = aujourdHui.getMonth();
+  const annee = aujourdHui.getFullYear();
+
+  const nomMois = [
+    "Janvier", "Février", "Mars", "Avril",
+    "Mai", "Juin", "Juillet", "Août",
+    "Septembre", "Octobre", "Novembre", "Décembre"
+  ];
+
+  calendrier.innerHTML = `
+    <div class="calendrier-navigation">
+      <button id="mois-precedent" type="button">←</button>
+      <h3>${nomMois[mois]} ${annee}</h3>
+      <button id="mois-suivant" type="button">→</button>
+    </div>
+    <p>Les dates des randonnées publiées apparaîtront ici.</p>
+  `;
+}
