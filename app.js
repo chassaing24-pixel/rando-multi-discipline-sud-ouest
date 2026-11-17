@@ -180,6 +180,7 @@ fiche.appendChild(badgeDiscipline);
     boutonDetails.textContent = "Voir les détails";
     boutonDetails.className = "btn orange";
 
+    boutonDetails.dataset.sortieId = sortie.id;
     boutonDetails.onclick = () => {
       const modal = document.getElementById("fenetre-details");
       const contenu = document.getElementById("contenu-details");
@@ -518,11 +519,13 @@ function afficherCalendrier(sorties) {
       <div class="case-jour">
         <strong>${jour}</strong>
      ${evenements.map(sortie => `
-  <button
-    type="button"
-    class="evenement-calendrier"
-    onclick="ouvrirDetailsSortie('${sortie.id}')">
-    ${sortie.Titre || "Randonnée"}
+
+<button
+  type="button"
+  class="evenement-calendrier"
+  data-sortie-id="${sortie.id}">
+ 
+ ${sortie.Titre || "Randonnée"}
   </button>
 `).join("")}
       </div>
@@ -533,6 +536,19 @@ function afficherCalendrier(sorties) {
 
   calendrier.innerHTML = html;
 
+calendrier.querySelectorAll(".evenement-calendrier").forEach(bouton => {
+  bouton.addEventListener("click", () => {
+    const id = bouton.dataset.sortieId;
+
+    const boutonOriginal = document.querySelector(
+      `.sortie-card button[data-sortie-id="${id}"]`
+    );
+
+    if (boutonOriginal) {
+      boutonOriginal.click();
+    }
+  });
+});
   document.getElementById("mois-precedent").addEventListener("click", () => {
     moisCalendrier--;
     if (moisCalendrier < 0) {
