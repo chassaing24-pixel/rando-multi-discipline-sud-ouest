@@ -216,6 +216,12 @@ document.querySelectorAll(".filtres-discipline button").forEach(bouton => {
     loadSorties();
   });
 });
+// Recherche par département
+document.getElementById("recherche-departement")
+  ?.addEventListener("input", event => {
+    rechercheDepartement = event.target.value.trim();
+    loadSorties();
+  });
 
 // Affichage des propositions dans l'espace administrateur
 async function loadPropositions() {
@@ -253,10 +259,27 @@ async function loadPropositions() {
     return;
   }
 
-  const sortiesFiltrees = disciplineActive === "Toutes"
-    ? data
-    : data.filter(sortie => sortie.Discipline === disciplineActive);
+const normaliser = valeur => (valeur || "")
+  .toString()
+  .normalize("NFD")
+  .replace(/[\u0300-\u036f]/g, "")
+  .toLowerCase()
+  .trim();
 
+const sortiesFiltrees = data.filter(sortie => {
+  const disciplineOK =
+    disciplineActive === "Toutes" ||
+    sortie.Discipline === disciplineActive;
+
+  const departement = normaliser(sortie.Département);
+
+  const rechercheOK =
+    !rechercheDepartement ||
+    departement.includes(normaliser(rechercheDepartement));
+
+  return disciplineOK && rechercheOK;
+});
+  
   if (sortiesFiltrees.length === 0) {
     zone.textContent = "Aucune randonnée dans cette discipline pour le moment.";
     return;
