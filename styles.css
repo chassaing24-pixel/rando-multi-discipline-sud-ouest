@@ -427,3 +427,13 @@ footer {
   border-color: #28543a;
   box-shadow: 0 0 0 3px rgba(40, 84, 58, 0.12);
 }
+/* CALENDRIER DES RANDONNEES */
+#calendrier-sorties {
+  margin: 20px 0 35px;
+  padding: 20px;
+  background: #fffdf8;
+  border: 1px solid #dce3d6;
+  border-radius: 16px;
+  color: #28543a;
+  min-height: 100px;
+}
