@@ -202,6 +202,20 @@ document.getElementById("fermer-details")?.addEventListener("click", () => {
   document.getElementById("fenetre-details")
     .style.setProperty("display", "none", "important");
 });
+// Filtres des disciplines
+document.querySelectorAll(".filtres-discipline button").forEach(bouton => {
+  bouton.addEventListener("click", () => {
+    disciplineActive = bouton.dataset.discipline;
+
+    document.querySelectorAll(".filtres-discipline button").forEach(b => {
+      b.classList.remove("filtre-actif");
+    });
+
+    bouton.classList.add("filtre-actif");
+
+    loadSorties();
+  });
+});
 
 // Affichage des propositions dans l'espace administrateur
 async function loadPropositions() {
