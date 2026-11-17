@@ -187,16 +187,17 @@ fiche.appendChild(badgeDiscipline);
         });
       }
 
-      modal.style.display = "block";
+      modal.style.setProperty("display", "flex", "important");
     };
-
+    
     fiche.append(titre, details, description, infos, boutonDetails);
     zone.appendChild(fiche);
   });
 }
 
 document.getElementById("fermer-details")?.addEventListener("click", () => {
-  document.getElementById("fenetre-details").style.display = "none";
+  document.getElementById("fenetre-details")
+    .style.setProperty("display", "none", "important");
 });
 
 // Affichage des propositions dans l'espace administrateur
