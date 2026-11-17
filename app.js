@@ -102,7 +102,33 @@ async function loadSorties() {
     return;
   }
 
-  data.forEach(sortie => {
+    const normaliser = valeur => (valeur || "")
+    .toString()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
+
+  const sortiesFiltrees = data.filter(sortie => {
+    const disciplineOK =
+      disciplineActive === "Toutes" ||
+      normaliser(sortie.Discipline).includes(normaliser(disciplineActive));
+
+    const departement = normaliser(sortie.Département);
+
+    const rechercheOK =
+      !rechercheDepartement ||
+      departement.includes(normaliser(rechercheDepartement));
+
+    return disciplineOK && rechercheOK;
+  });
+
+  if (sortiesFiltrees.length === 0) {
+    zone.textContent = "Aucune randonnée ne correspond à votre recherche.";
+    return;
+  }
+
+  sortiesFiltrees.forEach(sortie => {
     const fiche = document.createElement("article");
     fiche.className = "sortie-card";
 
@@ -223,7 +249,8 @@ document.getElementById("recherche-departement")
     loadSorties();
   });
 
-// Affichage des propositions dans l'espace administrateur
+
+ // Affichage des propositions dans l'espace administrateur
 async function loadPropositions() {
   const espace = document.getElementById("administration");
   const zone = document.getElementById("sorties-en-attente");
@@ -252,40 +279,14 @@ async function loadPropositions() {
     return;
   }
 
-    zone.replaceChildren();
+  zone.replaceChildren();
 
   if (!data || data.length === 0) {
-    zone.textContent = "Aucune randonnée publiée pour le moment.";
+    zone.textContent = "Aucune proposition en attente.";
     return;
   }
 
-const normaliser = valeur => (valeur || "")
-  .toString()
-  .normalize("NFD")
-  .replace(/[\u0300-\u036f]/g, "")
-  .toLowerCase()
-  .trim();
-
-const sortiesFiltrees = data.filter(sortie => {
-  const disciplineOK =
-    disciplineActive === "Toutes" ||
-normaliser(sortie.Discipline).includes(normaliser(disciplineActive));
-
-  const departement = normaliser(sortie.Département);
-
-  const rechercheOK =
-    !rechercheDepartement ||
-    departement.includes(normaliser(rechercheDepartement));
-
-  return disciplineOK && rechercheOK;
-});
-  
-  if (sortiesFiltrees.length === 0) {
-    zone.textContent = "Aucune randonnée dans cette discipline pour le moment.";
-    return;
-  }
-
-  sortiesFiltrees.forEach(sortie => {
+  data.forEach(sortie => {
     const fiche = document.createElement("article");
     fiche.className = "sortie-card";
 
@@ -329,6 +330,7 @@ normaliser(sortie.Discipline).includes(normaliser(disciplineActive));
     zone.appendChild(fiche);
   });
 }
+
 
 // Validation ou refus d'une randonnée
 async function changerStatut(id, statut) {
