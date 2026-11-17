@@ -517,11 +517,14 @@ function afficherCalendrier(sorties) {
     html += `
       <div class="case-jour">
         <strong>${jour}</strong>
-        ${evenements.map(sortie => `
-          <div class="evenement-calendrier">
-            ${sortie.Titre || "Randonnée"}
-          </div>
-        `).join("")}
+     ${evenements.map(sortie => `
+  <button
+    type="button"
+    class="evenement-calendrier"
+    onclick="ouvrirDetailsSortie('${sortie.id}')">
+    ${sortie.Titre || "Randonnée"}
+  </button>
+`).join("")}
       </div>
     `;
   }
