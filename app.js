@@ -153,7 +153,19 @@ async function loadSorties() {
 // Badge de la discipline
 const badgeDiscipline = document.createElement("span");
 badgeDiscipline.textContent = sortie.Discipline || "Randonnée";
+const discipline = (sortie.Discipline || "").toLowerCase();
+
 badgeDiscipline.className = "badge-discipline";
+
+if (discipline.includes("équestre")) {
+  badgeDiscipline.classList.add("badge-equestre");
+} else if (discipline.includes("pédestre")) {
+  badgeDiscipline.classList.add("badge-pedestre");
+} else if (discipline.includes("vtt")) {
+  badgeDiscipline.classList.add("badge-vtt");
+} else if (discipline.includes("trail")) {
+  badgeDiscipline.classList.add("badge-trail");
+}
 
 fiche.appendChild(badgeDiscipline);
     const titre = document.createElement("h3");
