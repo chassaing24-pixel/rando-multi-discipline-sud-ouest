@@ -281,10 +281,6 @@ zone.appendChild(fiche);
 });
 }
 
-document.getElementById("fermer-details")?.addEventListener("click", () => {
-  document.getElementById("fenetre-details")
-    .style.setProperty("display", "none", "important");
-});
 // Filtres des disciplines
 document.querySelectorAll(".filtres-discipline button").forEach(bouton => {
   bouton.addEventListener("click", () => {
@@ -636,6 +632,12 @@ document.getElementById("fermer-details")
     const modal = document.getElementById("fenetre-details");
 
     if (modal) {
-      modal.style.display = "none";
+// FERMETURE DE LA FENETRE DETAILS
+document.getElementById("fermer-details")
+  ?.addEventListener("click", () => {
+    const modal = document.getElementById("fenetre-details");
+
+    if (modal) {
+      modal.style.setProperty("display", "none", "important");
     }
   });
