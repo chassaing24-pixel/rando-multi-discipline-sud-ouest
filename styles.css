@@ -526,3 +526,8 @@ footer {
     padding: 3px;
   }
 }
+.case-jour.aujourd-hui {
+  border: 2px solid #e58a32;
+  background: #e9eee4;
+  box-shadow: 0 0 0 2px rgba(40, 84, 58, 0.15);
+}
