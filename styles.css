@@ -531,3 +531,20 @@ footer {
   background: #e9eee4;
   box-shadow: 0 0 0 2px rgba(40, 84, 58, 0.15);
 }
+/* COULEURS DES BADGES PAR DISCIPLINE */
+
+.badge-equestre {
+  background: #e58a32;
+}
+
+.badge-pedestre {
+  background: #28543a;
+}
+
+.badge-vtt {
+  background: #3478a8;
+}
+
+.badge-trail {
+  background: #d96b62;
+}
