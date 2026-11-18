@@ -166,35 +166,29 @@ h2 {
 
 .sortie-card {
   background: #fffdf8;
-  border: 1px solid #e7dfcf;
-  border-radius: 18px;
-  padding: 22px;
-  margin-bottom: 20px;
-  box-shadow: 0 5px 18px rgba(40, 70, 45, 0.07);
+  border: 1px solid #dce3d6;
+  border-radius: 20px;
+  padding: 24px;
+  margin-bottom: 22px;
+  box-shadow: 0 6px 20px rgba(40, 70, 45, 0.09);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sortie-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(40, 70, 45, 0.14);
 }
 
 .sortie-card h3 {
   color: #28543a;
   font-size: 22px;
-  margin: 0 0 12px;
+  margin: 10px 0 12px;
 }
 
 .sortie-card p {
   color: #59665b;
   line-height: 1.7;
-  margin: 8px 0;
-}
-
-.sortie-card p:first-of-type {
-  font-weight: 700;
-  color: #bd7731;
-}
-
-.sortie-card p:last-of-type {
-  background: #f0f2e9;
-  padding: 12px;
-  border-radius: 10px;
-  color: #31543a;
+  margin: 10px 0;
 }
 
 .sortie-card img {
@@ -547,4 +541,19 @@ footer {
 
 .badge-trail {
   background: #d96b62;
+}
+
+@media (max-width: 600px) {
+  .sortie-card {
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  .sortie-card h3 {
+    font-size: 19px;
+  }
+
+  .sortie-card p {
+    font-size: 14px;
+  }
 }
