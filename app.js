@@ -188,22 +188,16 @@ fiche.appendChild(badgeDiscipline);
     const titre = document.createElement("h3");
     titre.textContent = sortie.Titre || "Randonnée";
 
-    const details = document.createElement("p");
-    details.textContent =
-      (sortie.Discipline || "") + " · " +
-      (sortie.Date_sortie || "") + " · " +
-      (sortie.Lieu || "");
+ const details = document.createElement("p");
+
+
+details.innerHTML =
+  "📅 " + (sortie.Date_sortie || "Date à préciser") + "<br>" +
+  "🕒 " + (sortie.Heure || "Heure à préciser") + "<br>" +
+  "📍 " + (sortie.Lieu || "Lieu à préciser");
 
     const description = document.createElement("p");
     description.textContent = sortie.Description || "";
-
-    const infos = document.createElement("p");
-    infos.textContent = [
-      sortie.Heure ? "Départ : " + sortie.Heure : "",
-      sortie.Département ? "Département : " + sortie.Département : "",
-      sortie.Prix ? "Prix : " + sortie.Prix : "",
-      sortie.Contact ? "Contact : " + sortie.Contact : ""
-    ].filter(Boolean).join(" · ");
 
     const boutonDetails = document.createElement("button");
     boutonDetails.textContent = "Voir les détails";
@@ -251,7 +245,7 @@ fiche.appendChild(badgeDiscipline);
       modal.style.setProperty("display", "flex", "important");
     };
     
-    fiche.append(titre, details, description, infos, boutonDetails);
+    fiche.append(titre, details, description, boutonDetails);
     zone.appendChild(fiche);
   });
 }
