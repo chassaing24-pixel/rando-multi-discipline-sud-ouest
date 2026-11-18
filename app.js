@@ -245,9 +245,40 @@ details.innerHTML =
       modal.style.setProperty("display", "flex", "important");
     };
     
-    fiche.append(titre, details, description, boutonDetails);
-    zone.appendChild(fiche);
-  });
+    const boutonPartager = document.createElement("button");
+boutonPartager.textContent = "📤 Partager cette randonnée";
+boutonPartager.className = "btn";
+boutonPartager.type = "button";
+
+boutonPartager.onclick = async () => {
+  const partage = {
+    title: sortie.Titre || "Randonnée",
+    text: `Découvre cette randonnée : ${sortie.Titre || "Randonnée"}`,
+    url: window.location.href
+  };
+  if (navigator.share) {
+    try {
+      await navigator.share(partage);
+    } catch (erreur) {
+      if (erreur.name !== "AbortError") {
+        alert("Le partage n'a pas pu être effectué.");
+      }
+    }
+  } else {
+    try {
+      await navigator.clipboard.writeText(
+        partage.text + " " + partage.url
+      );
+      alert("Lien copié ! Tu peux le partager.");
+    } catch (erreur) {
+      alert("Impossible de copier le lien.");
+    }
+  }
+  };
+
+fiche.append(titre, details, description, boutonDetails, boutonPartager);
+zone.appendChild(fiche);
+});
 }
 
 document.getElementById("fermer-details")?.addEventListener("click", () => {
