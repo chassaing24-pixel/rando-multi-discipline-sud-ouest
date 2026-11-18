@@ -484,11 +484,12 @@ function afficherCalendrier(sorties) {
   const decalage = (premierJour.getDay() + 6) % 7;
 
   let html = `
-    <div class="calendrier-navigation">
-      <button id="mois-precedent" type="button">←</button>
-      <h3>${nomMois[moisCalendrier]} ${anneeCalendrier}</h3>
-      <button id="mois-suivant" type="button">→</button>
-    </div>
+<div class="calendrier-navigation">
+  <button id="mois-precedent" type="button">←</button>
+  <h3>${nomMois[moisCalendrier]} ${anneeCalendrier}</h3>
+  <button id="mois-suivant" type="button">→</button>
+  <button id="mois-aujourd-hui" type="button">Aujourd'hui</button>
+</div>
 
     <div class="calendrier-grille">
       <div class="jour-semaine">Lun</div>
@@ -535,6 +536,14 @@ function afficherCalendrier(sorties) {
   html += `</div>`;
 
   calendrier.innerHTML = html;
+
+  document.getElementById("mois-aujourd-hui")
+  .addEventListener("click", () => {
+    const maintenant = new Date();
+    moisCalendrier = maintenant.getMonth();
+    anneeCalendrier = maintenant.getFullYear();
+    afficherCalendrier(sorties);
+  });
 
 calendrier.querySelectorAll(".evenement-calendrier").forEach(bouton => {
   bouton.addEventListener("click", () => {
