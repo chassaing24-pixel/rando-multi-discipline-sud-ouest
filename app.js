@@ -483,7 +483,27 @@ document.getElementById("form-sortie")?.addEventListener("submit", async functio
 
     photos.push(urlPhoto.publicUrl);
   }
+  // Envoi des documents dans Supabase Storage
+  for (let i = 0; i < fichiersDocuments.length; i++) {
+    const fichier = fichiersDocuments[i];
 
+    const nomSecurise = fichier.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+    const chemin = user.id + "/" + Date.now() + "-" + i + "-" + nomSecurise;
+
+    const { error: erreurDocument } = await client.storage
+      .from("documents-randonnees")
+      .upload(chemin, fichier, {
+        upsert: false,
+        contentType: fichier.type
+      });
+
+    if (erreurDocument) {
+      message.textContent = "Erreur lors de l'envoi d'un document : " + erreurDocument.message;
+      return;
+    }
+
+    documents.push(chemin);
+  }
   const sortie = {
     Titre: document.getElementById("titre-sortie").value.trim(),
     Discipline: document.getElementById("discipline-sortie").value,
