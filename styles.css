@@ -557,3 +557,15 @@ footer {
     font-size: 14px;
   }
 }
+/* MISE EN EVIDENCE DE LA DATE DU JOUR */
+.jour-aujourd-hui {
+  background: #e3efdc !important;
+  border: 2px solid #28543a !important;
+  border-radius: 12px;
+  font-weight: bold;
+}
+
+.jour-aujourd-hui strong {
+  color: #28543a;
+  font-size: 20px;
+}
