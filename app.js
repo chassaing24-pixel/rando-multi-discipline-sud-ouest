@@ -522,8 +522,10 @@ Departement: document.getElementById("departement-sortie").value.trim(),
 
     Organisateur_id: user.id,
     Prix: document.getElementById("prix-sortie").value.trim(),
+    
     Contact: document.getElementById("contact-sortie").value.trim(),
     Photos: photos,
+    Documents: documents,
     Statut: "en_attente"
   };
 
