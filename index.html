@@ -286,7 +286,11 @@ footer {
       <option value="Trail">Trail</option>
     </select>
 
-    <input id="date-sortie" type="date" required>
+    <input id="date-sortie"
+       type="text"
+       placeholder="JJ/MM/AAAA"
+       pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}"
+       required>
     <input id="heure-sortie" type="time">
 
     <input id="lieu-sortie"
