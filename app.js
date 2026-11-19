@@ -514,7 +514,10 @@ const documents = [];
     Titre: document.getElementById("titre-sortie").value.trim(),
     Discipline: document.getElementById("discipline-sortie").value,
     Description: document.getElementById("description-sortie").value.trim(),
-    Date_sortie: document.getElementById("date-sortie").value,
+Date_sortie: (() => {
+  const [jour, mois, annee] = document.getElementById("date-sortie").value.split("/");
+  return `${annee}-${mois}-${jour}`;
+})(),
     Heure: document.getElementById("heure-sortie").value,
     Lieu: document.getElementById("lieu-sortie").value.trim(),
  
