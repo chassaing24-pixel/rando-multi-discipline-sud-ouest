@@ -451,6 +451,12 @@ document.getElementById("form-sortie")?.addEventListener("submit", async functio
 
   const champPhotos = document.getElementById("photos-sortie");
   const fichiers = champPhotos ? Array.from(champPhotos.files) : [];
+  const champDocuments = document.getElementById("documents-sortie");
+const fichiersDocuments = champDocuments
+  ? Array.from(champDocuments.files)
+  : [];
+
+const documents = [];
   const photos = [];
 
   // Envoi des photos dans Supabase Storage
