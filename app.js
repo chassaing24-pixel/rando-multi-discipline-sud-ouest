@@ -116,7 +116,7 @@ async function loadSorties() {
       disciplineActive === "Toutes" ||
       normaliser(sortie.Discipline).includes(normaliser(disciplineActive));
 
-    const departement = normaliser(sortie.Département);
+    const departement = normaliser(sortie.Departement);
 
     const rechercheOK =
       !rechercheDepartement ||
@@ -221,7 +221,7 @@ details.innerHTML =
       ajouterDetail(contenu, "Lieu", sortie.Lieu);
       ajouterDetail(contenu, "Description", sortie.Description);
       ajouterDetail(contenu, "Départ", sortie.Heure);
-      ajouterDetail(contenu, "Département", sortie.Département);
+      ajouterDetail(contenu, "Département", sortie.Departement);
       ajouterDetail(contenu, "Prix", sortie.Prix);
       ajouterDetail(contenu, "Contact", sortie.Contact);
 
@@ -511,7 +511,9 @@ document.getElementById("form-sortie")?.addEventListener("submit", async functio
     Date_sortie: document.getElementById("date-sortie").value,
     Heure: document.getElementById("heure-sortie").value,
     Lieu: document.getElementById("lieu-sortie").value.trim(),
-    Département: document.getElementById("departement-sortie").value.trim(),
+ 
+Departement: document.getElementById("departement-sortie").value.trim(),
+
     Organisateur_id: user.id,
     Prix: document.getElementById("prix-sortie").value.trim(),
     Contact: document.getElementById("contact-sortie").value.trim(),
