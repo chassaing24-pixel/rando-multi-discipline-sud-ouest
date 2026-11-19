@@ -555,7 +555,15 @@ function afficherCalendrier(sorties) {
     html += `<div class="case-jour vide"></div>`;
   }
 
+  const maintenant = new Date();
+
   for (let jour = 1; jour <= nombreJours; jour++) {
+
+    const estAujourdHui =
+      jour === maintenant.getDate() &&
+      moisCalendrier === maintenant.getMonth() &&
+      anneeCalendrier === maintenant.getFullYear();
+
     const dateRecherche = [
       anneeCalendrier,
       String(moisCalendrier + 1).padStart(2, "0"),
@@ -567,7 +575,7 @@ function afficherCalendrier(sorties) {
     );
 
     html += `
-      <div class="case-jour">
+      <div class="case-jour ${estAujourdHui ? "jour-aujourd-hui" : ""}">
         <strong>${jour}</strong>
      ${evenements.map(sortie => `
 
