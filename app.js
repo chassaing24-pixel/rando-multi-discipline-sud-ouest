@@ -717,20 +717,27 @@ document.getElementById("form-newsletter")
 
     message.textContent = "Inscription en cours...";
 
-    const { error } = await client.from("newsletter").insert([{
+    
+const { data, error } = await client.functions.invoke(
+  "envoyer-newsletter",
+  {
+    body: {
       email: email,
       departements: departements,
       disciplines: disciplines,
-      confirmed: false,
-      consent_at: new Date().toISOString()
-    }]);
-
-    if (error) {
-      console.error("Erreur newsletter :", error);
-      message.textContent = "Impossible de vous inscrire. Cette adresse est peut-être déjà inscrite.";
-      return;
+      consentement: consentement
     }
+  }
+);
 
-    message.textContent = "Merci ! Votre demande d'inscription a bien été enregistrée.";
-    document.getElementById("form-newsletter").reset();
+if (error) {
+  console.error("Erreur newsletter :", error);
+  message.textContent = "Impossible d'envoyer la demande. Réessayez.";
+  return;
+}
+
+message.textContent = data?.message ||
+  "Consultez votre boîte e-mail pour confirmer votre inscription.";
+
+document.getElementById("form-newsletter").reset();
   });
