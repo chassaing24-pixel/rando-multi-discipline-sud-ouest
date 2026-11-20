@@ -673,12 +673,54 @@ document.getElementById("fermer-details")
     const modal = document.getElementById("fenetre-details");
 
     if (modal) {
-// FERMETURE DE LA FENETRE DETAILS
-document.getElementById("fermer-details")
-  ?.addEventListener("click", () => {
-    const modal = document.getElementById("fenetre-details");
-
-    if (modal) {
       modal.style.setProperty("display", "none", "important");
     }
+  });
+// INSCRIPTION A LA NEWSLETTER
+document.getElementById("form-newsletter")
+  ?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const message = document.getElementById("message-newsletter");
+
+    if (!client) {
+      message.textContent = "Service momentanément indisponible.";
+      return;
+    }
+
+    const email = document.getElementById("newsletter-email").value.trim().toLowerCase();
+
+    const departements = Array.from(
+      document.querySelectorAll(".newsletter-departements input:checked")
+    ).map(input => input.value);
+
+    const consentement = document.getElementById("newsletter-consent").checked;
+
+    if (departements.length === 0) {
+      message.textContent = "Choisissez au moins un département.";
+      return;
+    }
+
+    if (!consentement) {
+      message.textContent = "Veuillez accepter de recevoir les actualités par e-mail.";
+      return;
+    }
+
+    message.textContent = "Inscription en cours...";
+
+    const { error } = await client.from("newsletter").insert([{
+      email: email,
+      departements: departements,
+      confirmed: false,
+      consent_at: new Date().toISOString()
+    }]);
+
+    if (error) {
+      console.error("Erreur newsletter :", error);
+      message.textContent = "Impossible de vous inscrire. Cette adresse est peut-être déjà inscrite.";
+      return;
+    }
+
+    message.textContent = "Merci ! Votre demande d'inscription a bien été enregistrée.";
+    document.getElementById("form-newsletter").reset();
   });
