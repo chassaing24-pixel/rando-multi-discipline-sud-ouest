@@ -694,10 +694,19 @@ document.getElementById("form-newsletter")
       document.querySelectorAll(".newsletter-departements input:checked")
     ).map(input => input.value);
 
+    const disciplines = Array.from(
+      document.querySelectorAll(".newsletter-disciplines input:checked")
+    ).map(input => input.value);
+
     const consentement = document.getElementById("newsletter-consent").checked;
 
     if (departements.length === 0) {
       message.textContent = "Choisissez au moins un département.";
+      return;
+    }
+
+    if (disciplines.length === 0) {
+      message.textContent = "Choisissez au moins une discipline.";
       return;
     }
 
@@ -711,6 +720,7 @@ document.getElementById("form-newsletter")
     const { error } = await client.from("newsletter").insert([{
       email: email,
       departements: departements,
+      disciplines: disciplines,
       confirmed: false,
       consent_at: new Date().toISOString()
     }]);
