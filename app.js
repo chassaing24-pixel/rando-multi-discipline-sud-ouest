@@ -732,7 +732,17 @@ const { data, error } = await client.functions.invoke(
 
 if (error) {
   console.error("Erreur newsletter :", error);
-  message.textContent = "Impossible d'envoyer la demande. Réessayez.";
+
+  let detail = error.message;
+
+  try {
+    const resultat = await error.context.json();
+    detail = resultat.message || resultat.error || JSON.stringify(resultat);
+  } catch (e) {
+    console.error("Détail de l'erreur :", e);
+  }
+
+  message.textContent = detail;
   return;
 }
 
