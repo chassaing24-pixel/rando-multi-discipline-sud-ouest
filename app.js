@@ -193,7 +193,6 @@ fiche.appendChild(badgeDiscipline);
 
 details.innerHTML =
   "📅 " + (sortie.Date_sortie || "Date à préciser") + "<br>" +
-  "🕒 " + (sortie.Heure || "Heure à préciser") + "<br>" +
   "📍 " + (sortie.Lieu || "Lieu à préciser");
 
     const description = document.createElement("p");
@@ -428,8 +427,19 @@ if (client) {
 
   actualiserEspace();
 }
+// Ouvrir et refermer le formulaire de randonnée
+const boutonFormulaire = document.getElementById("ouvrir-formulaire-sortie");
+const formulaireSortie = document.getElementById("form-sortie");
 
-// Formulaire de proposition d'une randonnée
+boutonFormulaire?.addEventListener("click", () => {
+  formulaireSortie.hidden = !formulaireSortie.hidden;
+
+  boutonFormulaire.textContent = formulaireSortie.hidden
+    ? "+ Proposer une randonnée"
+    : "− Fermer le formulaire";
+});
+
+// Formulaire de proposition d'une randonné
 document.getElementById("form-sortie")?.addEventListener("submit", async function(e) {
   e.preventDefault();
 
@@ -510,15 +520,22 @@ const documents = [];
 
     documents.push(chemin);
   }
+  const disciplinesChoisies = Array.from(
+  document.querySelectorAll('input[name="discipline-sortie"]:checked')
+).map(input => input.value);
+
+if (disciplinesChoisies.length === 0) {
+  message.textContent = "Choisissez au moins une discipline.";
+  return;
+}
   const sortie = {
     Titre: document.getElementById("titre-sortie").value.trim(),
-    Discipline: document.getElementById("discipline-sortie").value,
+   Discipline: disciplinesChoisies.join(", "),
     Description: document.getElementById("description-sortie").value.trim(),
 Date_sortie: (() => {
   const [jour, mois, annee] = document.getElementById("date-sortie").value.split("/");
   return `${annee}-${mois}-${jour}`;
 })(),
-    Heure: document.getElementById("heure-sortie").value,
     Lieu: document.getElementById("lieu-sortie").value.trim(),
  
 Departement: document.getElementById("departement-sortie").value.trim(),
@@ -527,6 +544,7 @@ Departement: document.getElementById("departement-sortie").value.trim(),
     Prix: document.getElementById("prix-sortie").value.trim(),
     
     Contact: document.getElementById("contact-sortie").value.trim(),
+    Telephone: document.getElementById("telephone-sortie").value.trim(),
     Photos: photos,
     Documents: documents,
     Statut: "en_attente"
