@@ -240,10 +240,10 @@ details.innerHTML =
           contenu.appendChild(image);
         });
       }
-
-      modal.style.setProperty("display", "flex", "important");
-    };
-    
+modal.style.setProperty("display", "flex", "important");
+document.body.style.overflow = "hidden";
+};
+      
     const boutonPartager = document.createElement("button");
 boutonPartager.textContent = "📤 Partager cette randonnée";
 boutonPartager.className = "btn";
