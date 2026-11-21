@@ -220,7 +220,7 @@ details.innerHTML =
       ajouterDetail(contenu, "Date", sortie.Date_sortie);
       ajouterDetail(contenu, "Lieu", sortie.Lieu);
       ajouterDetail(contenu, "Description", sortie.Description);
-      ajouterDetail(contenu, "Départ", sortie.Heure);
+    ajouterDetail(contenu, "Téléphone", sortie.Telephone);
       ajouterDetail(contenu, "Département", sortie.Departement);
       ajouterDetail(contenu, "Prix", sortie.Prix);
       ajouterDetail(contenu, "Contact", sortie.Contact);
