@@ -692,6 +692,7 @@ document.getElementById("fermer-details")
 
     if (modal) {
       modal.style.setProperty("display", "none", "important");
+      document.body.style.overflow = "";
     }
   });
 // INSCRIPTION A LA NEWSLETTER
