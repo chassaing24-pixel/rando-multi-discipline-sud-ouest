@@ -644,3 +644,7 @@ footer {
     grid-template-columns: 1fr;
   }
 }
+/* FORMULAIRE DE PROPOSITION REPLIE */
+#form-sortie[hidden] {
+  display: none !important;
+}
