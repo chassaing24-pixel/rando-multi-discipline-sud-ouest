@@ -559,11 +559,34 @@ Departement: document.getElementById("departement-sortie").value.trim(),
     return;
   }
 
-  message.textContent = "Proposition envoyée ! Elle sera vérifiée avant publication.";
+  // Envoi de la notification à l'administratrice
+  const { error: erreurEmail } = await client.functions.invoke(
+    "notifier-admin-sortie",
+    {
+      body: {
+        titre: sortie.Titre,
+        discipline: sortie.Discipline,
+        date: sortie.Date_sortie,
+        lieu: sortie.Lieu,
+        departement: sortie.Departement,
+        contact: sortie.Contact
+      }
+    }
+  );
+
+  if (erreurEmail) {
+    message.textContent =
+      "Randonnée enregistrée, mais l'e-mail n'a pas pu être envoyé : " +
+      erreurEmail.message;
+  } else {
+    message.textContent =
+      "Proposition envoyée ! Un e-mail de notification a été déclenché. Elle sera vérifiée avant publication.";
+  }
+
   this.reset();
   await loadPropositions();
-});
 
+  
 // CALENDRIER DES RANDONNEES
 let moisCalendrier = new Date().getMonth();
 let anneeCalendrier = new Date().getFullYear();
