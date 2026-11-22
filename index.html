@@ -447,7 +447,8 @@ footer {
 </button>
 
 <p id="message-newsletter" aria-live="polite"></p>
-
+</form>
+</section>
 <footer>
   
   🥾 <strong>Rando Multi Discipline – Sud-Ouest</strong>
@@ -455,18 +456,53 @@ footer {
   © Rando Multi Discipline – Sud-Ouest · Gratuit pour les membres
 </footer>
 
+    <div id="fenetre-details" class="modal-details">
+  <div class="modal-contenu">
+    <button type="button" id="fermer-details" class="btn orange">
+      Fermer ✕
+    </button>
+
+    <div id="contenu-details"></div>
+
+    <div id="formulaire-inscription" style="display:none; margin-top:20px;">
+      <h3>Inscription à cette randonnée</h3>
+
+      <form id="form-inscription">
+        <input type="hidden" id="inscription-sortie-id">
+
+        <label for="inscription-nom">Nom *</label>
+        <input type="text" id="inscription-nom" required>
+
+        <label for="inscription-prenom">Prénom *</label>
+        <input type="text" id="inscription-prenom" required>
+
+        <label for="inscription-email">Adresse e-mail *</label>
+        <input type="email" id="inscription-email" required>
+
+        <label for="inscription-telephone">Téléphone</label>
+        <input type="tel" id="inscription-telephone">
+
+        <label for="inscription-nombre">Nombre de participants *</label>
+        <input type="number" id="inscription-nombre" min="1" value="1" required>
+
+        <label for="inscription-message">Message (facultatif)</label>
+        <textarea id="inscription-message"></textarea>
+
+        <label for="inscription-documents">Joindre un ou plusieurs documents</label>
+        <input type="file" id="inscription-documents" multiple>
+
+        <button type="submit" class="btn orange">
+          Envoyer mon inscription
+        </button>
+
+        <p id="message-inscription"></p>
+      </form>
+    </div>
+  </div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase/config.js"></script>
 <script src="app.js"></script>
-
-<div id="fenetre-details" class="modal-details">
-  <div class="modal-contenu">
-   <button type="button" id="fermer-details" class="btn orange">
-  Fermer ✕
-</button>
-    <div id="contenu-details"></div>
-  </div>
-</div>
-
 </body>
 </html>
+
