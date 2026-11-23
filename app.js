@@ -528,27 +528,46 @@ if (disciplinesChoisies.length === 0) {
   message.textContent = "Choisissez au moins une discipline.";
   return;
 }
-  const sortie = {
-    Titre: document.getElementById("titre-sortie").value.trim(),
-   Discipline: disciplinesChoisies.join(", "),
-    Description: document.getElementById("description-sortie").value.trim(),
-Date_sortie: (() => {
-  const [jour, mois, annee] = document.getElementById("date-sortie").value.split("/");
-  return `${annee}-${mois}-${jour}`;
-})(),
-    Lieu: document.getElementById("lieu-sortie").value.trim(),
- 
-Departement: document.getElementById("departement-sortie").value.trim(),
+  const modeInscription = document.getElementById("mode-inscription-sortie").value;
+const lienInscription = document.getElementById("lien-inscription-sortie").value.trim();
 
-    Organisateur_id: user.id,
-    Prix: document.getElementById("prix-sortie").value.trim(),
-    
-    Contact: document.getElementById("contact-sortie").value.trim(),
-    Telephone: document.getElementById("telephone-sortie").value.trim(),
-    Photos: photos,
-    Documents: documents,
-    Statut: "en_attente"
-  };
+if (modeInscription === "lien" && !lienInscription) {
+  message.textContent = "Veuillez renseigner le lien d'inscription.";
+  return;
+}
+
+if (modeInscription === "lien") {
+  try {
+    const url = new URL(lienInscription);
+    if (!["http:", "https:"].includes(url.protocol)) {
+      throw new Error("Lien invalide");
+    }
+  } catch (e) {
+    message.textContent = "Veuillez saisir une adresse de lien valide.";
+    return;
+  }
+}
+
+const sortie = {
+  Mode_inscription: modeInscription,
+  Lien_inscription: modeInscription === "lien" ? lienInscription : null,
+  Titre: document.getElementById("titre-sortie").value.trim(),
+  Discipline: disciplinesChoisies.join(", "),
+  Description: document.getElementById("description-sortie").value.trim(),
+  Date_sortie: (() => {
+    const [jour, mois, annee] = document.getElementById("date-sortie").value.split("/");
+    return `${annee}-${mois}-${jour}`;
+  })(),
+  Lieu: document.getElementById("lieu-sortie").value.trim(),
+  Departement: document.getElementById("departement-sortie").value.trim(),
+  Organisateur_id: user.id,
+  Prix: document.getElementById("prix-sortie").value.trim(),
+  Contact: document.getElementById("contact-sortie").value.trim(),
+  Telephone: document.getElementById("telephone-sortie").value.trim(),
+  Photos: photos,
+  Documents: documents,
+  Statut: "en_attente"
+};
 
   const { error } = await client
     .from("Sorties")
