@@ -585,6 +585,7 @@ Departement: document.getElementById("departement-sortie").value.trim(),
 
   this.reset();
   await loadPropositions();
+  });
 
   
 // CALENDRIER DES RANDONNEES
@@ -793,3 +794,85 @@ message.textContent = data?.message ||
 
 document.getElementById("form-newsletter").reset();
   });
+
+// INSCRIPTION DES PARTICIPANTS AUX RANDONNEES
+document.getElementById("form-inscription")
+  ?.addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const message = document.getElementById("message-inscription");
+    message.textContent = "Envoi de votre inscription en cours...";
+
+    if (!client) {
+      message.textContent = "Connexion au service impossible.";
+      return;
+    }
+
+    const sortieId = Number(
+      document.getElementById("inscription-sortie-id").value
+    );
+
+    const fichiers = Array.from(
+      document.getElementById("inscription-documents").files
+    );
+
+    const documents = [];
+
+    // Envoyer les documents dans le stockage privé
+    for (let i = 0; i < fichiers.length; i++) {
+      const fichier = fichiers[i];
+
+      const nomSecurise = fichier.name.replace(
+        /[^a-zA-Z0-9._-]/g, "_"
+      );
+
+      const chemin =
+        sortieId + "/" + Date.now() + "-" + i + "-" + nomSecurise;
+
+      const { error } = await client.storage
+        .from("documents-inscriptions")
+        .upload(chemin, fichier, {
+          upsert: false,
+          contentType: fichier.type || "application/octet-stream"
+        });
+
+      if (error) {
+        message.textContent =
+          "Erreur lors de l'envoi du document : " + error.message;
+        return;
+      }
+
+      documents.push(chemin);
+    }
+
+    // Enregistrer l'inscription dans Supabase
+    const inscription = {
+      sortie_id: sortieId,
+      nom: document.getElementById("inscription-nom").value.trim(),
+      prenom: document.getElementById("inscription-prenom").value.trim(),
+      email: document.getElementById("inscription-email").value.trim(),
+      telephone: document.getElementById("inscription-telephone").value.trim(),
+      nombre_participants: Number(
+        document.getElementById("inscription-nombre").value
+      ),
+      message: document.getElementById("inscription-message").value.trim(),
+      documents: documents,
+      statut: "nouvelle"
+    };
+
+    const { error } = await client
+      .from("inscriptions")
+      .insert([inscription]);
+
+    if (error) {
+      message.textContent =
+        "Erreur lors de l'inscription : " + error.message;
+      return;
+    }
+
+    message.textContent =
+      "Votre inscription a bien été envoyée ! Merci et à bientôt.";
+
+    this.reset();
+  });
+
