@@ -314,6 +314,27 @@ footer {
     <input id="prix-sortie"
       placeholder="Prix (ex : gratuit ou 8 €)">
 
+<label for="mode-inscription-sortie">
+  Comment souhaitez-vous recevoir les inscriptions ?
+</label>
+
+<select id="mode-inscription-sortie" required>
+  <option value="aucun">Aucune inscription en ligne</option>
+  <option value="site">Inscription directement sur notre site</option>
+  <option value="lien">Inscription par un lien externe</option>
+</select>
+
+<div id="zone-lien-inscription" style="display:none;">
+  <label for="lien-inscription-sortie">
+    Adresse du formulaire externe
+  </label>
+  <input
+    type="url"
+    id="lien-inscription-sortie"
+    placeholder="https://www.helloasso.com/..."
+  >
+</div>
+
     <input id="contact-sortie"
       placeholder="Contact organisateur">
 
