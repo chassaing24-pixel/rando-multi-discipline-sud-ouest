@@ -481,6 +481,7 @@ async function actualiserEspace() {
   await loadSorties();
   await loadPropositions();
   await loadInscriptions();
+ await loadInscriptionsOrganisateur();
 }
 
 
@@ -575,6 +576,103 @@ async function loadInscriptions() {
   }
 }
 
+
+async function loadInscriptionsOrganisateur() {
+  const zone = document.getElementById("inscriptions-organisateur");
+  const espace = document.getElementById("espace-organisateur");
+
+  if (!zone || !client) return;
+
+  const { data: userData } = await client.auth.getUser();
+  const user = userData?.user;
+
+  if (!user) {
+    espace.style.display = "none";
+    return;
+  }
+
+  espace.style.display = "block";
+  zone.textContent = "Chargement de vos inscriptions...";
+
+  const { data: sorties, error: erreurSorties } = await client
+    .from("Sorties")
+    .select("id, Titre")
+    .eq("Organisateur_id", user.id);
+
+  if (erreurSorties) {
+    zone.textContent = "Erreur : " + erreurSorties.message;
+    return;
+  }
+
+  if (!sorties || sorties.length === 0) {
+    zone.textContent = "Vous n'avez pas encore proposé de randonnée.";
+    return;
+  }
+
+  const idsSorties = sorties.map(sortie => sortie.id);
+  const titresSorties = Object.fromEntries(
+    sorties.map(sortie => [sortie.id, sortie.Titre])
+  );
+
+  const { data: inscriptions, error: erreurInscriptions } = await client
+    .from("inscriptions")
+    .select("*")
+    .in("sortie_id", idsSorties)
+    .order("created_at", { ascending: false });
+
+  if (erreurInscriptions) {
+    zone.textContent = "Erreur de chargement : " + erreurInscriptions.message;
+    return;
+  }
+
+  zone.replaceChildren();
+
+  if (!inscriptions || inscriptions.length === 0) {
+    zone.textContent = "Aucune inscription reçue pour vos randonnées.";
+    return;
+  }
+
+  for (const inscription of inscriptions) {
+    const fiche = document.createElement("div");
+    fiche.className = "carte-sortie";
+
+    const titre = document.createElement("h3");
+    titre.textContent = titresSorties[inscription.sortie_id] || "Randonnée";
+    fiche.appendChild(titre);
+
+    const details = [
+      "Nom : " + inscription.nom,
+      "Prénom : " + inscription.prenom,
+      "E-mail : " + inscription.email,
+      "Téléphone : " + (inscription.telephone || "Non renseigné"),
+      "Participants : " + inscription.nombre_participants,
+      "Message : " + (inscription.message || "Aucun")
+    ];
+
+    details.forEach(detail => {
+      const ligne = document.createElement("p");
+      ligne.textContent = detail;
+      fiche.appendChild(ligne);
+    });
+
+    for (const chemin of inscription.documents || []) {
+      const { data, error } = await client.storage
+        .from("documents-inscriptions")
+        .createSignedUrl(chemin, 3600);
+
+      if (!error && data?.signedUrl) {
+        const lien = document.createElement("a");
+        lien.href = data.signedUrl;
+        lien.target = "_blank";
+        lien.rel = "noopener noreferrer";
+        lien.textContent = "Consulter un document";
+        fiche.appendChild(lien);
+      }
+    }
+
+    zone.appendChild(fiche);
+  }
+}
 
 // Au chargement du site
 if (client) {
