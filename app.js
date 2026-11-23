@@ -480,7 +480,101 @@ async function changerStatut(id, statut) {
 async function actualiserEspace() {
   await loadSorties();
   await loadPropositions();
+  await loadInscriptions();
 }
+
+
+async function loadInscriptions() {
+  const zone = document.getElementById("inscriptions-recues");
+
+  if (!zone || !client) return;
+
+  const { data: userData } = await client.auth.getUser();
+  const user = userData.user;
+
+  if (!user || user.id !== ADMIN_ID) return;
+
+  zone.textContent = "Chargement des inscriptions...";
+
+  const { data, error } = await client
+    .from("inscriptions")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    zone.textContent = "Erreur : " + error.message;
+    return;
+  }
+
+  zone.replaceChildren();
+
+  if (!data || data.length === 0) {
+    zone.textContent = "Aucune inscription reçue pour le moment.";
+    return;
+  }
+
+  const { data: sorties, error: erreurSorties } = await client
+    .from("Sorties")
+    .select("id, Titre");
+
+  if (erreurSorties) {
+    zone.textContent = "Erreur de chargement des randonnées : " + erreurSorties.message;
+    return;
+  }
+
+  const titresSorties = new Map(
+    (sorties || []).map(s => [String(s.id), s.Titre])
+  );
+
+  for (const inscription of data) {
+    const fiche = document.createElement("article");
+    fiche.className = "sortie-card";
+
+    const titre = document.createElement("h3");
+    titre.textContent =
+      titresSorties.get(String(inscription.sortie_id)) || "Randonnée";
+
+    const infos = document.createElement("p");
+    infos.textContent =
+      "Participant : " + inscription.prenom + " " + inscription.nom +
+      " · E-mail : " + inscription.email +
+      " · Téléphone : " + (inscription.telephone || "Non renseigné") +
+      " · Participants : " + inscription.nombre_participants;
+
+    const message = document.createElement("p");
+    message.textContent = inscription.message || "Aucun message.";
+
+    fiche.append(titre, infos, message);
+
+    const documents = Array.isArray(inscription.documents)
+      ? inscription.documents
+      : [];
+
+    for (const chemin of documents) {
+      const { data: fichier, error: erreurFichier } =
+        await client.storage
+          .from("documents-inscriptions")
+          .createSignedUrl(chemin, 3600);
+
+      if (erreurFichier) {
+        const erreur = document.createElement("p");
+        erreur.textContent = "Document inaccessible : " + chemin;
+        fiche.appendChild(erreur);
+        continue;
+      }
+
+      const lien = document.createElement("a");
+      lien.href = fichier.signedUrl;
+      lien.target = "_blank";
+      lien.rel = "noopener noreferrer";
+      lien.textContent = "Consulter un document";
+      fiche.appendChild(lien);
+    }
+
+    zone.appendChild(fiche);
+  }
+}
+
 
 // Au chargement du site
 if (client) {
