@@ -203,46 +203,109 @@ details.innerHTML =
     boutonDetails.className = "btn orange";
 
     boutonDetails.dataset.sortieId = sortie.id;
-    boutonDetails.onclick = () => {
-      const modal = document.getElementById("fenetre-details");
-      const contenu = document.getElementById("contenu-details");
+    
+boutonDetails.onclick = () => {
+  const modal = document.getElementById("fenetre-details");
+  const contenu = document.getElementById("contenu-details");
+  const formulaireInscription = document.getElementById("formulaire-inscription");
+  const formInscription = document.getElementById("form-inscription");
+  const messageInscription = document.getElementById("message-inscription");
 
-      if (!modal || !contenu) return;
+  if (!modal || !contenu) return;
 
-      contenu.replaceChildren();
+  contenu.replaceChildren();
 
-      const titreModal = document.createElement("h2");
-      titreModal.textContent = sortie.Titre || "Randonnée";
-      contenu.appendChild(titreModal);
+  // Réinitialiser le formulaire d'inscription
+  if (formulaireInscription) formulaireInscription.style.display = "none";
+  if (formInscription) formInscription.reset();
+  if (messageInscription) messageInscription.textContent = "";
 
-      ajouterDetail(contenu, "Discipline", sortie.Discipline);
-      ajouterDetail(contenu, "Date", sortie.Date_sortie);
-      ajouterDetail(contenu, "Lieu", sortie.Lieu);
-      ajouterDetail(contenu, "Description", sortie.Description);
-    ajouterDetail(contenu, "Téléphone", sortie.Telephone);
-      ajouterDetail(contenu, "Département", sortie.Departement);
-      ajouterDetail(contenu, "Prix", sortie.Prix);
-      ajouterDetail(contenu, "Contact", sortie.Contact);
+  const titreModal = document.createElement("h2");
+  titreModal.textContent = sortie.Titre || "Randonnée";
+  contenu.appendChild(titreModal);
 
-      if (photos.length > 0) {
-        const titrePhotos = document.createElement("h3");
-        titrePhotos.textContent = "Photos de la randonnée";
-        contenu.appendChild(titrePhotos);
+  ajouterDetail(contenu, "Discipline", sortie.Discipline);
+  ajouterDetail(contenu, "Date", sortie.Date_sortie);
+  ajouterDetail(contenu, "Lieu", sortie.Lieu);
+  ajouterDetail(contenu, "Description", sortie.Description);
+  ajouterDetail(contenu, "Téléphone", sortie.Telephone);
+  ajouterDetail(contenu, "Département", sortie.Departement);
+  ajouterDetail(contenu, "Prix", sortie.Prix);
+  ajouterDetail(contenu, "Contact", sortie.Contact);
 
-        photos.forEach(url => {
-          const image = document.createElement("img");
-          image.src = url;
-          image.alt = "Photo de la randonnée";
-          image.style.width = "100%";
-          image.style.maxWidth = "250px";
-          image.style.margin = "8px";
-          image.style.borderRadius = "12px";
-          contenu.appendChild(image);
+  // Afficher les photos
+  if (photos.length > 0) {
+    const titrePhotos = document.createElement("h3");
+    titrePhotos.textContent = "Photos de la randonnée";
+    contenu.appendChild(titrePhotos);
+
+    photos.forEach(url => {
+      const image = document.createElement("img");
+      image.src = url;
+      image.alt = "Photo de la randonnée";
+      image.style.width = "100%";
+      image.style.maxWidth = "250px";
+      image.style.margin = "8px";
+      image.style.borderRadius = "12px";
+      contenu.appendChild(image);
+    });
+  }
+
+  // Choisir le mode d'inscription
+  if (sortie.Mode_inscription === "site") {
+    const boutonInscription = document.createElement("button");
+    boutonInscription.type = "button";
+    boutonInscription.textContent = "S'inscrire à cette randonnée";
+    boutonInscription.className = "btn orange";
+
+    boutonInscription.addEventListener("click", () => {
+      const champSortie = document.getElementById("inscription-sortie-id");
+
+      if (champSortie) champSortie.value = sortie.id;
+
+      if (formulaireInscription) {
+        formulaireInscription.style.display = "block";
+        boutonInscription.style.display = "none";
+        formulaireInscription.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
         });
       }
-modal.style.setProperty("display", "flex", "important");
-document.body.style.overflow = "hidden";
+    });
+
+    contenu.appendChild(boutonInscription);
+
+  } else if (sortie.Mode_inscription === "lien" && sortie.Lien_inscription) {
+    try {
+      const url = new URL(sortie.Lien_inscription);
+
+      if (["http:", "https:"].includes(url.protocol)) {
+        const lien = document.createElement("a");
+        lien.href = url.href;
+        lien.target = "_blank";
+        lien.rel = "noopener noreferrer";
+        lien.textContent = "S'inscrire à cette randonnée";
+        lien.className = "btn orange";
+        contenu.appendChild(lien);
+      } else {
+        ajouterDetail(contenu, "Inscription", "Lien d'inscription invalide.");
+      }
+    } catch (e) {
+      ajouterDetail(contenu, "Inscription", "Lien d'inscription invalide.");
+    }
+
+  } else {
+    ajouterDetail(
+      contenu,
+      "Inscription",
+      "Aucune inscription en ligne. Contactez l'organisateur."
+    );
+  }
+
+  modal.style.setProperty("display", "flex", "important");
+  document.body.style.overflow = "hidden";
 };
+
       
     const boutonPartager = document.createElement("button");
 boutonPartager.textContent = "📤 Partager cette randonnée";
