@@ -304,8 +304,26 @@ footer {
     <input id="lieu-sortie"
       placeholder="Lieu" required>
 
-    <input id="departement-sortie"
-      placeholder="Département">
+    <select id="departement-sortie" required>
+  <option value="" disabled selected>Choisir un département</option>
+  <option value="Landes">Landes (40)</option>
+  <option value="Gironde">Gironde (33)</option>
+  <option value="Pyrénées-Atlantiques">Pyrénées-Atlantiques (64)</option>
+  <option value="Lot-et-Garonne">Lot-et-Garonne (47)</option>
+  <option value="Dordogne">Dordogne (24)</option>
+  <option value="Gers">Gers (32)</option>
+  <option value="Hautes-Pyrénées">Hautes-Pyrénées (65)</option>
+  <option value="Haute-Garonne">Haute-Garonne (31)</option>
+  <option value="Tarn-et-Garonne">Tarn-et-Garonne (82)</option>
+  <option value="Tarn">Tarn (81)</option>
+  <option value="Aveyron">Aveyron (12)</option>
+  <option value="Lot">Lot (46)</option>
+  <option value="Charente-Maritime">Charente-Maritime (17)</option>
+  <option value="Charente">Charente (16)</option>
+  <option value="Creuse">Creuse (23)</option>
+  <option value="Corrèze">Corrèze (19)</option>
+  <option value="Haute-Vienne">Haute-Vienne (87)</option>
+</select>
 
     <textarea id="description-sortie"
       placeholder="Description de la randonnée"
