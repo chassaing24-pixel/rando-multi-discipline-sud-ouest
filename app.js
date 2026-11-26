@@ -190,10 +190,11 @@ fiche.appendChild(badgeDiscipline);
 
  const details = document.createElement("p");
 
+details.textContent =
+  "📅 " + (sortie.Date_sortie || "Date à préciser") + " · " +
+  "📍 " + (sortie.Lieu || "Lieu à préciser") + " · " +
+  "Département(s) : " + (sortie.Departement || "Non renseigné");
 
-details.innerHTML =
-  "📅 " + (sortie.Date_sortie || "Date à préciser") + "<br>" +
-  "📍 " + (sortie.Lieu || "Lieu à préciser");
 
     const description = document.createElement("p");
     description.textContent = sortie.Description || "";
@@ -409,10 +410,11 @@ async function loadPropositions() {
     titre.textContent = sortie.Titre || "Randonnée";
 
     const details = document.createElement("p");
-    details.textContent =
-      (sortie.Discipline || "") + " · " +
-      (sortie.Date_sortie || "") + " · " +
-      (sortie.Lieu || "");
+details.textContent =
+  (sortie.Discipline || "") + " · " +
+  (sortie.Date_sortie || "") + " · " +
+  (sortie.Lieu || "") + " · " +
+  "Département(s) : " + (sortie.Departement || "Non renseigné");
 
     const description = document.createElement("p");
     description.textContent = sortie.Description || "";
