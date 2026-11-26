@@ -304,26 +304,27 @@ footer {
     <input id="lieu-sortie"
       placeholder="Lieu" required>
 
-    <select id="departement-sortie" required>
-  <option value="" disabled selected>Choisir un département</option>
-  <option value="Landes">Landes (40)</option>
-  <option value="Gironde">Gironde (33)</option>
-  <option value="Pyrénées-Atlantiques">Pyrénées-Atlantiques (64)</option>
-  <option value="Lot-et-Garonne">Lot-et-Garonne (47)</option>
-  <option value="Dordogne">Dordogne (24)</option>
-  <option value="Gers">Gers (32)</option>
-  <option value="Hautes-Pyrénées">Hautes-Pyrénées (65)</option>
-  <option value="Haute-Garonne">Haute-Garonne (31)</option>
-  <option value="Tarn-et-Garonne">Tarn-et-Garonne (82)</option>
-  <option value="Tarn">Tarn (81)</option>
-  <option value="Aveyron">Aveyron (12)</option>
-  <option value="Lot">Lot (46)</option>
-  <option value="Charente-Maritime">Charente-Maritime (17)</option>
-  <option value="Charente">Charente (16)</option>
-  <option value="Creuse">Creuse (23)</option>
-  <option value="Corrèze">Corrèze (19)</option>
-  <option value="Haute-Vienne">Haute-Vienne (87)</option>
-</select>
+   <p><strong>Choisissez le ou les départements :</strong></p>
+
+<div id="departements-sortie" class="departements-sortie">
+  <label><input type="checkbox" name="departements-sortie" value="Aveyron"> Aveyron (12)</label>
+  <label><input type="checkbox" name="departements-sortie" value="Charente"> Charente (16)</label>
+  <label><input type="checkbox" name="departements-sortie" value="Charente-Maritime"> Charente-Maritime (17)</label>
+  <label><input type="checkbox" name="departements-sortie" value="Corrèze"> Corrèze (19)</label>
+  <label><input type="checkbox" name="departements-sortie" value="Creuse"> Creuse (23)</label>
+  <label><input type="checkbox" name="departements-sortie" value="Dordogne"> Dordogne (24)</label>
+  <label><input type="checkbox" name="departements-sortie" value="Gers"> Gers (32)</label>
+  <label><input type="checkbox" name="departements-sortie" value="Gironde"> Gironde (33)</label>
+  <label><input type="checkbox" name="departements-sortie" value="Haute-Garonne"> Haute-Garonne (31)</label>
+  <label><input type="checkbox" name="departements-sortie" value="Haute-Vienne"> Haute-Vienne (87)</label>
+  <label><input type="checkbox" name="departements-sortie" value="Hautes-Pyrénées"> Hautes-Pyrénées (65)</label>
+  <label><input type="checkbox" name="departements-sortie" value="Landes"> Landes (40)</label>
+  <label><input type="checkbox" name="departements-sortie" value="Lot"> Lot (46)</label>
+  <label><input type="checkbox" name="departements-sortie" value="Lot-et-Garonne"> Lot-et-Garonne (47)</label>
+  <label><input type="checkbox" name="departements-sortie" value="Pyrénées-Atlantiques"> Pyrénées-Atlantiques (64)</label>
+  <label><input type="checkbox" name="departements-sortie" value="Tarn"> Tarn (81)</label>
+  <label><input type="checkbox" name="departements-sortie" value="Tarn-et-Garonne"> Tarn-et-Garonne (82)</label>
+</div>
 
     <textarea id="description-sortie"
       placeholder="Description de la randonnée"
