@@ -276,16 +276,16 @@ boutonDetails.onclick = () => {
 
     contenu.appendChild(boutonInscription);
 
-  } else if (sortie.Mode_inscription === "lien" && sortie.Lien_inscription) {
+  } else if (sortie.Mode_inscription === "lien" && sortie.lien_inscription) {
     try {
-      const url = new URL(sortie.Lien_inscription);
+      const url = new URL(sortie.lien_inscription);
 
       if (["http:", "https:"].includes(url.protocol)) {
         const lien = document.createElement("a");
         lien.href = url.href;
         lien.target = "_blank";
         lien.rel = "noopener noreferrer";
-        lien.textContent = "S'inscrire à cette randonnée";
+      lien.textContent = "S'inscrire et payer";
         lien.className = "btn orange";
         contenu.appendChild(lien);
       } else {
