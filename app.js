@@ -807,7 +807,7 @@ if (modeInscription === "lien") {
 
 const sortie = {
   Mode_inscription: modeInscription,
-  Lien_inscription: modeInscription === "lien" ? lienInscription : null,
+ lien_inscription: modeInscription === "lien" ? lienInscription : null,
   Titre: document.getElementById("titre-sortie").value.trim(),
   Discipline: disciplinesChoisies.join(", "),
   Description: document.getElementById("description-sortie").value.trim(),
