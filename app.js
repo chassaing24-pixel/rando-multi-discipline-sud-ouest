@@ -876,6 +876,10 @@ const sortie = {
   }
 
   this.reset();
+  const zoneLien = document.getElementById("zone-lien-inscription");
+if (zoneLien) {
+  zoneLien.style.display = "none";
+}
   await loadPropositions();
   });
 
