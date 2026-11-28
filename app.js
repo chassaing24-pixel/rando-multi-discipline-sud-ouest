@@ -830,7 +830,9 @@ const sortie = {
     return `${annee}-${mois}-${jour}`;
   })(),
   Lieu: document.getElementById("lieu-sortie").value.trim(),
-  Departement: document.getElementById("departement-sortie").value.trim(),
+  Departement: Array.from(
+  document.querySelectorAll('input[name="departements-sortie"]:checked')
+).map(caseDepartement => caseDepartement.value).join(", "),
   Organisateur_id: user.id,
   Prix: document.getElementById("prix-sortie").value.trim(),
   Contact: document.getElementById("contact-sortie").value.trim(),
