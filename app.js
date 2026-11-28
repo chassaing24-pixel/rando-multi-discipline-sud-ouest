@@ -1143,18 +1143,18 @@ document.getElementById("form-inscription")
 
     // Enregistrer l'inscription dans Supabase
     const inscription = {
-      sortie_id: sortieId,
-      nom: document.getElementById("inscription-nom").value.trim(),
-      prenom: document.getElementById("inscription-prenom").value.trim(),
-      email: document.getElementById("inscription-email").value.trim(),
-      telephone: document.getElementById("inscription-telephone").value.trim(),
-      nombre_participants: Number(
-        document.getElementById("inscription-nombre").value
-      ),
-      message: document.getElementById("inscription-message").value.trim(),
-      documents: documents,
-      statut: "nouvelle"
-    };
+  sortie_id: sortieId,
+  nom: document.getElementById("inscription-nom").value.trim(),
+  "prénom": document.getElementById("inscription-prenom").value.trim(),
+  email: document.getElementById("inscription-email").value.trim(),
+  "téléphone": document.getElementById("inscription-telephone").value.trim(),
+  "nombre de participants": Number(
+    document.getElementById("inscription-nombre").value
+  ),
+  message: document.getElementById("inscription-message").value.trim(),
+  documents: documents,
+  statut: "nouvelle"
+};
 
     const { error } = await client
       .from("inscriptions")
