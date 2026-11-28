@@ -7,6 +7,20 @@ const client = (window.supabase && cfg.url && cfg.anonKey)
   ? window.supabase.createClient(cfg.url, cfg.anonKey)
   : null;
 
+// Afficher le champ du lien externe selon le mode d'inscription
+const modeInscriptionSelect = document.getElementById("mode-inscription-sortie");
+const zoneLienInscription = document.getElementById("zone-lien-inscription");
+
+if (modeInscriptionSelect && zoneLienInscription) {
+  const afficherZoneLien = () => {
+    zoneLienInscription.style.display =
+      modeInscriptionSelect.value === "lien" ? "block" : "none";
+  };
+
+  modeInscriptionSelect.addEventListener("change", afficherZoneLien);
+  afficherZoneLien();
+}
+
 // Identifiant du compte administrateur
 const ADMIN_ID = "4a71660b-f732-4bb2-9653-9fc7a059c348";
 
